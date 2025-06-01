@@ -66,7 +66,7 @@ const Login: React.FC = () => {
             <Link to="/forgot-password" style={{ color: '#34c759' }}>
               Quên mật khẩu?
             </Link>
-            <Link to="/employee" style={{ color: '#34c759' }}>
+            <Link to="/register" style={{ color: '#34c759' }}>
               Đăng ký tài khoản
             </Link>
           </Row>
