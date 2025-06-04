@@ -1,11 +1,40 @@
-import React from 'react'
-import { Row, Col, Form, Input, Button, Typography } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Form, Input, Button, Typography, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import logo from '../../../assets/images/logo.png'
 
 const { Text } = Typography
-import { Link } from 'react-router-dom'
 
 const Register: React.FC = () => {
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate() 
+
+  const onFinish = async (values: any) => {
+    const { email, password } = values
+    setLoading(true)
+
+    try {
+      const response = await axios.post(
+        'https://99d9-42-113-119-226.ngrok-free.app/auth/register',
+        { email, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+
+      message.success('Đăng ký thành công!')
+      form.resetFields()
+      navigate('/login') // <-- điều hướng tại đây
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        message.error(error.response.data.message)
+      } else {
+        message.error('Lỗi kết nối đến máy chủ')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Row
@@ -19,29 +48,15 @@ const Register: React.FC = () => {
     >
       <Col xs={24} sm={18} md={12} lg={8} style={{ background: '#fff', padding: '40px', borderRadius: 8 }}>
         <Row justify="center" style={{ marginBottom: 32 }}>
-          <img
-            src="https://dummyimage.com/250x60/34c759/ffffff&text=Logo+Ứng+Dụng"
-            alt="Logo"
-            width={200}
-          />
+          <img src={logo} alt="Logo" width={200} />
         </Row>
 
         <Form
           form={form}
           layout="vertical"
-          onFinish={() => {}}
+          onFinish={onFinish}
           requiredMark="optional"
         >
-          <Form.Item
-            name="fullName"
-            label="Họ và tên"
-            rules={[
-              { required: true, message: 'Vui lòng nhập họ và tên' },
-            ]}
-          >
-            <Input placeholder="Nhập họ và tên của bạn" />
-          </Form.Item>
-
           <Form.Item
             name="email"
             label="Email"
@@ -87,6 +102,7 @@ const Register: React.FC = () => {
               type="primary"
               htmlType="submit"
               block
+              loading={loading}
               style={{ backgroundColor: '#34c759', borderColor: '#34c759' }}
             >
               Đăng ký
@@ -101,7 +117,7 @@ const Register: React.FC = () => {
               </Link>
             </Text>
           </Row>
-        </Form> 
+        </Form>
 
         <Row justify="center" style={{ marginTop: 24 }}>
           <Text type="secondary" style={{ fontSize: 12, textAlign: 'center' }}>

@@ -1,4 +1,4 @@
-import { useState, type JSX } from "react";
+import { useState, useEffect, type JSX } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -15,10 +15,13 @@ import {
   Layout,
   List,
   Menu,
+  Spin,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import UserDropdownAuth from "../../widgets/UserDropdownAuth";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,25 +32,63 @@ interface ILayoutApp {
 export default function LayoutApp({ children }: ILayoutApp) {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState("1");
+  const [userName, setUserName] = useState('');
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const screens = useBreakpoint();
-
   const navigate = useNavigate();
 
-  const colorBgContainer = "white ";
+  const colorBgContainer = "white";
   const borderRadiusLG = 8;
 
   const menuKeyToPath: Record<string, string> = {
     "1": "/",
     "2": "/profile",
-    "3": "/upload",
+    "3": "/payment",
   };
 
-  // 🔔 Danh sách thông báo giả lập
   const notifications = [
     { id: 1, title: "Bạn có lịch tập mới hôm nay" },
     { id: 2, title: "Hệ thống cập nhật dữ liệu sức khỏe" },
     { id: 3, title: "Đạt mục tiêu tuần này, tuyệt vời!" },
   ];
+
+  // 📱 Auto collapse nếu là màn hình mobile
+  useEffect(() => {
+    if (!screens.lg) {
+      setCollapsed(true);
+    }
+  }, [screens.lg]);
+
+  // 🔐 Lấy accessToken và gọi API profile
+  useEffect(() => {
+    const token = Cookies.get("accessToken");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(
+          "https://99d9-42-113-119-226.ngrok-free.app/auth/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUserName(response.data?.email || "Người dùng");
+      } catch (error) {
+        console.error("Lỗi khi gọi API profile:", error);
+        setUserName('');
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
 
   return (
     <Layout style={{ minHeight: "100vh", background: "white" }}>
@@ -74,6 +115,11 @@ export default function LayoutApp({ children }: ILayoutApp) {
               icon: <VideoCameraOutlined />,
               label: "Profile",
             },
+            {
+              key: "3",
+              icon: <VideoCameraOutlined />,
+              label: "Payment",
+            },
           ]}
         />
       </Sider>
@@ -81,7 +127,6 @@ export default function LayoutApp({ children }: ILayoutApp) {
       <Layout>
         <Header style={{ padding: "0 16px", background: "white" }}>
           <Flex justify="space-between" align="center">
-            {/* Nút thu gọn sidebar */}
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -93,9 +138,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
               }}
             />
 
-            {/* Phần thông báo + avatar */}
             <Flex align="center" gap={screens.lg ? 24 : 8}>
-              {/* 🔽 Dropdown danh sách thông báo */}
               <Dropdown
                 placement="bottomRight"
                 trigger={["click"]}
@@ -120,7 +163,11 @@ export default function LayoutApp({ children }: ILayoutApp) {
                 </Button>
               </Dropdown>
 
-              <UserDropdownAuth />
+              {loadingProfile ? (
+                <Spin size="small" />
+              ) : (
+                <UserDropdownAuth name={userName} />
+              )}
             </Flex>
           </Flex>
         </Header>

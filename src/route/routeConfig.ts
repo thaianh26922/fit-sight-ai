@@ -2,7 +2,8 @@ import { match } from 'path-to-regexp'
 import React from 'react'
 import type { PathRouteProps } from 'react-router-dom'
 import Profile from '../pages/Profile'
-import FitSightSteps from '../components/FitSightSteps'
+import Home from '../pages/Home'
+import Payment from '../pages/Payment'
 // import { PathRouteProps } from 'react-router-dom'
 
 // Define a custom route configuration type
@@ -15,10 +16,9 @@ export interface TRouteConfig extends PathRouteProps {
 
 // Define the route configurations
 const routeConfig: TRouteConfig[] = [
-  { path: '/', Element: FitSightSteps },
+  { path: '/', Element: Home },
   { path: '/profile', Element: Profile },
-
-  
+  { path: '/payment', Element: Payment },
 ]
 
 export default routeConfig

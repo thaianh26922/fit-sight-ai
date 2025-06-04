@@ -1,11 +1,50 @@
-import React from 'react'
-import { Row, Col, Form, Input, Button, Typography } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Form, Input, Button, Typography, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import logo from '../../../assets/images/logo.png'
 
 const { Text } = Typography
-import { Link } from 'react-router-dom'
 
 const Login: React.FC = () => {
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+
+  const onFinish = async (values: any) => {
+    const { email, password } = values
+    setLoading(true)
+
+    try {
+      const response = await axios.post(
+        'https://99d9-42-113-119-226.ngrok-free.app/auth/login',
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      const { accessToken } = response.data
+      if (accessToken) {
+        Cookies.set('accessToken', accessToken, { expires: 7 }) // lưu cookie trong 7 ngày
+        message.success('Đăng nhập thành công!')
+        navigate('/') // hoặc trang chính của bạn
+      } else {
+        message.error('Không nhận được accessToken từ máy chủ.')
+      }
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        message.error(error.response.data.message)
+      } else {
+        message.error('Không thể kết nối đến máy chủ.')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Row
@@ -19,17 +58,13 @@ const Login: React.FC = () => {
     >
       <Col xs={24} sm={18} md={12} lg={8} style={{ background: '#fff', padding: '40px', borderRadius: 8 }}>
         <Row justify="center" style={{ marginBottom: 32 }}>
-          <img
-            src="https://dummyimage.com/250x60/34c759/ffffff&text=Logo+Ứng+Dụng"
-            alt="Logo"
-            width={200}
-          />
+          <img src={logo} alt="Logo" width={200} />
         </Row>
 
         <Form
           form={form}
           layout="vertical"
-          onFinish={() => {}}
+          onFinish={onFinish}
           requiredMark="optional"
         >
           <Form.Item
@@ -56,6 +91,7 @@ const Login: React.FC = () => {
               type="primary"
               htmlType="submit"
               block
+              loading={loading}
               style={{ backgroundColor: '#34c759', borderColor: '#34c759' }}
             >
               Đăng nhập
