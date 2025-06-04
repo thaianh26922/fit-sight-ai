@@ -21,10 +21,10 @@ const Register: React.FC = () => {
         { email, password },
         { headers: { 'Content-Type': 'application/json' } }
       )
-
+      console.log(response)
       message.success('Đăng ký thành công!')
       form.resetFields()
-      navigate('/login') // <-- điều hướng tại đây
+      navigate('/login') 
     } catch (error: any) {
       if (error.response?.data?.message) {
         message.error(error.response.data.message)
