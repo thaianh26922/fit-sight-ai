@@ -58,13 +58,13 @@ export default function LayoutApp({ children }: ILayoutApp) {
       setCollapsed(true);
     }
   }, [screens.lg]);
-
+ 
   // 🔐 Lấy accessToken và gọi API profile
   useEffect(() => {
     const token = Cookies.get("accessToken");
 
     if (!token) {
-      // navigate("/login");
+      navigate("/login");
       return;
     }
 
