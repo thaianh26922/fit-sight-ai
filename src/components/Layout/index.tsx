@@ -49,7 +49,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
   const notifications = [
     { id: 1, title: "Bạn có lịch tập mới hôm nay" },
     { id: 2, title: "Hệ thống cập nhật dữ liệu sức khỏe" },
-    { id: 3, title: "Đạt mục tiêu tuần này, tuyệt vời!" },
+    { id: 3, title: "Đạt mục tiêu tuần này, tuyệt vời!" }, 
   ];
 
   // 📱 Auto collapse nếu là màn hình mobile
@@ -71,7 +71,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "https://99d9-42-113-119-226.ngrok-free.app/auth/profile",
+          "https://7b45-58-187-228-118.ngrok-free.app/auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,

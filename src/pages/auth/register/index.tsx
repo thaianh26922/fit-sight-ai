@@ -17,7 +17,7 @@ const Register: React.FC = () => {
 
     try {
       const response = await axios.post(
-        'https://99d9-42-113-119-226.ngrok-free.app/auth/register',
+        'https://7b45-58-187-228-118.ngrok-free.app/auth/register',
         { email, password },
         { headers: { 'Content-Type': 'application/json' } }
       )
