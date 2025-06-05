@@ -116,7 +116,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
               label: "Profile",
             },
             {
-              key: "2",
+              key: "3",
               icon: <VideoCameraOutlined />,
               label: "Payment",
             },
