@@ -60,35 +60,35 @@ export default function LayoutApp({ children }: ILayoutApp) {
   }, [screens.lg]);
 
   // 🔐 Lấy accessToken và gọi API profile
-  useEffect(() => {
-    const token = Cookies.get("accessToken");
+  // useEffect(() => {
+  //   const token = Cookies.get("accessToken");
 
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+  //   if (!token) {
+  //     navigate("/login");
+  //     return;
+  //   }
 
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.get(
-          "https://99d9-42-113-119-226.ngrok-free.app/auth/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUserName(response.data?.email || "Người dùng");
-      } catch (error) {
-        console.error("Lỗi khi gọi API profile:", error);
-        setUserName('');
-      } finally {
-        setLoadingProfile(false);
-      }
-    };
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://99d9-42-113-119-226.ngrok-free.app/auth/profile",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setUserName(response.data?.email || "Người dùng");
+  //     } catch (error) {
+  //       console.error("Lỗi khi gọi API profile:", error);
+  //       setUserName('');
+  //     } finally {
+  //       setLoadingProfile(false);
+  //     }
+  //   };
 
-    fetchProfile();
-  }, [navigate]);
+  //   fetchProfile();
+  // }, [navigate]);
 
   return (
     <Layout style={{ minHeight: "100vh", background: "white" }}>
