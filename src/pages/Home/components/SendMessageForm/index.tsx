@@ -47,30 +47,31 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
     setImages([]);
   };
 
-  const handleCapture = () => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    if (imageSrc) {
-      fetch(imageSrc)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new File([blob], `camera_${Date.now()}.jpg`, { type: 'image/jpeg' });
-          const rcFile = file as RcFile;
-          rcFile.uid = `${Date.now()}`;
-          rcFile.lastModifiedDate = new Date(file.lastModified);
+ const handleCapture = () => {
+  const imageSrc = webcamRef.current?.getScreenshot();
+  if (imageSrc) {
+    fetch(imageSrc)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], `camera_${Date.now()}.jpg`, { type: 'image/jpeg' });
 
-          const newFile: UploadFile = {
-            uid: rcFile.uid,
-            name: rcFile.name,
-            status: 'done',
-            originFileObj: rcFile,
-          };
+        const rcFile = Object.assign(file, {
+          uid: `${Date.now()}`,
+          lastModifiedDate: new Date(file.lastModified),
+        }) as RcFile;
 
-          setImages((prev) => [...prev, newFile]);
-          setCameraOpen(false);
-        });
-    }
-  };
+        const newFile: UploadFile = {
+          uid: rcFile.uid,
+          name: rcFile.name,
+          status: 'done',
+          originFileObj: rcFile,
+        };
 
+        setImages((prev) => [...prev, newFile]);
+        setCameraOpen(false);
+      });
+  }
+};
   return (
     <>
       <Form form={form} onFinish={handleSubmit}>
