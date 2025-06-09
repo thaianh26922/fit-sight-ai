@@ -13,6 +13,7 @@ import {
   Row,
   Upload,
   Space,
+  Card,
 } from 'antd';
 import type { UploadFile } from 'antd';
 import type { UploadChangeParam } from 'antd/es/upload';
@@ -49,8 +50,8 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       fetch(imageSrc)
-        .then(res => res.blob())
-        .then(blob => {
+        .then((res) => res.blob())
+        .then((blob) => {
           const file = new File([blob], `camera_${Date.now()}.jpg`, {
             type: 'image/jpeg',
           });
@@ -62,7 +63,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
             originFileObj: file,
           };
 
-          setImages(prev => [...prev, newFile]);
+          setImages((prev) => [...prev, newFile]);
           setShowCamera(false);
         });
     }
@@ -72,6 +73,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
     <>
       <Form form={form} onFinish={handleSubmit}>
         <Row gutter={[24, 24]}>
+          {/* Preview ảnh đã chọn */}
           {images.length > 0 && (
             <Col span={24}>
               <Space>
@@ -104,6 +106,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
             </Col>
           )}
 
+          {/* Input + Actions */}
           <Col span={24}>
             <Row gutter={8} align="bottom" wrap={false}>
               <Col flex="auto">
@@ -123,10 +126,10 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
 
               {/* Nút mở camera */}
               <Col>
-                <Button icon={<CameraOutlined />} onClick={() => setShowCamera(!showCamera)} />
+                <Button icon={<CameraOutlined />} onClick={() => setShowCamera(true)} />
               </Col>
 
-              {/* Upload từ thư viện ảnh */}
+              {/* Nút chọn ảnh */}
               <Col>
                 <Upload
                   listType="picture"
@@ -142,7 +145,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
                 </Upload>
               </Col>
 
-              {/* Gửi */}
+              {/* Nút gửi */}
               <Col>
                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} />
               </Col>
@@ -151,20 +154,40 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
         </Row>
       </Form>
 
-      {/* Giao diện camera riêng, không dùng antd */}
+      {/* Modal nhỏ gọn hiển thị camera (dùng Card, không Modal) */}
       {showCamera && (
-        <div style={{ marginTop: 16, padding: 12, border: '1px solid #ccc', borderRadius: 6 }}>
-          <Webcam
-            ref={webcamRef}
-            audio={false}
-            screenshotFormat="image/jpeg"
-            width="100%"
-            videoConstraints={{ facingMode: 'environment' }}
-          />
-          <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
-            <button onClick={handleCapture}>📸 Chụp ảnh</button>
-            <button onClick={() => setShowCamera(false)}>❌ Đóng camera</button>
-          </div>
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 999,
+            width: 340,
+            maxWidth: '90%',
+          }}
+        >
+          <Card
+            title="Chụp ảnh"
+            bordered
+            bodyStyle={{ padding: 12 }}
+            actions={[
+              <Button key="capture" type="primary" onClick={handleCapture}>
+                📸 Chụp
+              </Button>,
+              <Button key="close" onClick={() => setShowCamera(false)}>
+                ❌ Đóng
+              </Button>,
+            ]}
+          >
+            <Webcam
+              ref={webcamRef}
+              audio={false}
+              screenshotFormat="image/jpeg"
+              width="100%"
+              videoConstraints={{ facingMode: 'environment' }}
+            />
+          </Card>
         </div>
       )}
     </>
