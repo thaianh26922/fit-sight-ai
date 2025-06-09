@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Card, Table, message } from 'antd'
+import { Row, Col, Card, Table, message, DatePicker } from 'antd'
 import {
   RadarChart,
   PolarGrid,
@@ -15,51 +15,131 @@ import {
 } from 'recharts'
 import axios from 'axios'
 import PageHeader from '../../widgets/LazyLoading/PageHeader'
-import { DatePicker } from 'antd'
+import Cookies from 'js-cookie'
+import dayjs, { Dayjs } from 'dayjs'
 
 const { RangePicker } = DatePicker
-import Cookies from "js-cookie";
-
 const COLORS = ['#FF6384', '#34c759', '#36A2EB']
 
+type RadarStat = {
+  subject: string
+  A: number
+  fullMark: number
+}
+
+type PieStat = {
+  name: string
+  value: number
+}
+
+type Workout = {
+  key: number
+  day: string
+  activity: string
+}
+
+type Diet = {
+  key: number
+  day: string
+  meals: string
+}
+
+type BodyStats = {
+  strength: number
+  endurance: number
+  flexibility: number
+  metabolism: number
+  posture: number
+}
+
+type BodyComposition = {
+  fat: number
+  muscle: number
+  water: number
+}
+
+type WorkoutItem = {
+  day: string
+  activity: string
+}
+
+type MealPlanItem = {
+  day: string
+  breakfast: string
+  lunch: string
+  dinner: string
+}
+
+type DailyStat = {
+  bodyStats: BodyStats[]
+  workoutSchedule: WorkoutItem[]
+  mealPlan: MealPlanItem[]
+}
+
+type FitnessHistoryResponse = {
+  weeklyStats?: {
+    bodyStats?: BodyStats
+    bodyComposition?: BodyComposition
+  }
+  dailyStats: DailyStat[]
+}
+
 const Profile: React.FC = () => {
-  const [radarData, setRadarData] = useState([])
-  const [pieData, setPieData] = useState([])
-  const [workoutSchedule, setWorkoutSchedule] = useState([])
-  const [dietSchedule, setDietSchedule] = useState([])
+  const [radarData, setRadarData] = useState<RadarStat[]>([])
+  const [pieData, setPieData] = useState<PieStat[]>([])
+  const [workoutSchedule, setWorkoutSchedule] = useState<Workout[]>([])
+  const [dietSchedule, setDietSchedule] = useState<Diet[]>([])
+  const [dateRange, setDateRange] = useState<[Dayjs, Dayjs]>([
+    dayjs().startOf('day'),
+    dayjs().endOf('day'),
+  ])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = Cookies.get('accessToken');
-      try {
-        const res = await axios.get('https://7b45-58-187-228-118.ngrok-free.app/fitness/history', {
+  const fetchData = async (startDate: string, endDate: string) => {
+    const token = Cookies.get('accessToken')
+    try {
+      const res = await axios.get<FitnessHistoryResponse>(
+        `https://7b45-58-187-228-118.ngrok-free.app/fitness/history?start=${startDate}&end=${endDate}`,
+        {
           headers: {
-            'Content-Type': 'text/plain',
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        })
+        }
+      )
 
-        const data = res.data
-        const stats = data.bodyStats[0]
-        const comp = data.bodyComposition[0]
+      const result = res.data
+      const stats = result.weeklyStats?.bodyStats
+      const composition = result.weeklyStats?.bodyComposition
 
+      if (stats) {
         setRadarData([
-          { subject: 'Sức mạnh', A: stats.strength * 15, fullMark: 150 },
-          { subject: 'Bền bỉ', A: stats.endurance * 15, fullMark: 150 },
-          { subject: 'Dẻo dai', A: stats.flexibility * 15, fullMark: 150 },
-          { subject: 'Trao đổi chất', A: stats.metabolism * 15, fullMark: 150 },
-          { subject: 'Tư thế', A: stats.posture * 15, fullMark: 150 },
+          { subject: 'Sức mạnh', A: stats.strength, fullMark: 150 },
+          { subject: 'Bền bỉ', A: stats.endurance, fullMark: 150 },
+          { subject: 'Dẻo dai', A: stats.flexibility, fullMark: 150 },
+          { subject: 'Trao đổi chất', A: stats.metabolism, fullMark: 150 },
+          { subject: 'Tư thế', A: stats.posture, fullMark: 150 },
         ])
+      } else {
+        setRadarData([])
+      }
 
+      if (composition) {
         setPieData([
-          { name: 'Mỡ cơ thể', value: comp.fat },
-          { name: 'Cơ bắp', value: comp.muscle },
-          { name: 'Nước', value: comp.water },
+          { name: 'Mỡ cơ thể', value: composition.fat },
+          { name: 'Cơ bắp', value: composition.muscle },
+          { name: 'Nước', value: composition.water },
         ])
+      } else {
+        setPieData([])
+      }
+
+      const todayStats = result.dailyStats.find((d) => d.bodyStats?.length > 0)
+
+      if (todayStats) {
+        const workout = todayStats.workoutSchedule ?? []
+        const meal = todayStats.mealPlan ?? []
 
         setWorkoutSchedule(
-          data.workoutSchedule.map((item: any, i: number) => ({
+          workout.map((item, i) => ({
             key: i,
             day: item.day,
             activity: item.activity,
@@ -67,19 +147,28 @@ const Profile: React.FC = () => {
         )
 
         setDietSchedule(
-          data.mealPlan.map((item: any, i: number) => ({
+          meal.map((item, i) => ({
             key: i,
             day: item.day,
             meals: `Ăn sáng: ${item.breakfast}\nTrưa: ${item.lunch}\nTối: ${item.dinner}`,
           }))
         )
-      } catch (err) {
-        message.error('Không thể tải dữ liệu từ máy chủ')
+      } else {
+        setWorkoutSchedule([])
+        setDietSchedule([])
       }
+    } catch (err) {
+      message.error('Không thể tải dữ liệu từ máy chủ')
+      console.error(err)
     }
+  }
 
-    fetchData()
-  }, [])
+  useEffect(() => {
+    const [start, end] = dateRange
+    if (start && end) {
+      fetchData(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
+    }
+  }, [dateRange])
 
   return (
     <div style={{ padding: 24 }}>
@@ -89,8 +178,15 @@ const Profile: React.FC = () => {
             title="Thống kê cơ thể"
             extra={
               <Row justify="end" gutter={[16, 16]}>
-                <Col xs={{ flex: 1 }} md={{ flex: 0.4 }}>
-                  <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
+                <Col>
+                  <RangePicker
+                    showTime={false}
+                    format="YYYY-MM-DD"
+                    value={dateRange}
+                    onChange={(dates) => {
+                      if (dates) setDateRange(dates as [Dayjs, Dayjs])
+                    }}
+                  />
                 </Col>
               </Row>
             }

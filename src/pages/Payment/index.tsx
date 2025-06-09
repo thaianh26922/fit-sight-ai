@@ -1,5 +1,7 @@
 import React from 'react'
-import { Card, Col, Row, Button, Table, Typography, Space } from 'antd'
+import { Card, Col, Row, Button, Table, Typography, Space, message } from 'antd'
+import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 
 const { Title, Text } = Typography
 
@@ -68,11 +70,39 @@ const columns = [
     ),
   },
 ]
-
 const Payment: React.FC = () => {
-  const handleSubscribe = (planKey: string) => {
-    // Tích hợp thanh toán thật tại đây
-    console.log(`Chọn thanh toán cho gói: ${planKey}`)
+  const handleSubscribe = async (planKey: string) => {
+    const token = Cookies.get('accessToken')
+
+    if (!token) {
+      message.error('Vui lòng đăng nhập để thanh toán.')
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `https://7b45-58-187-228-118.ngrok-free.app/payment/create?pkg=${planKey}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        message.success('Chuyển đến cổng thanh toán...')
+      // Mở trang thanh toán
+      window.location.href = data.paymentUrl
+        // TODO: reload lịch sử giao dịch nếu cần
+      } else {
+        throw new Error(data.message || 'Có lỗi xảy ra khi thanh toán.')
+      }
+    } catch {
+      toast.error(`Thanh toán thất bại`)
+    }
   }
 
   return (

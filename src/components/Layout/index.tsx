@@ -1,13 +1,11 @@
 import { useState, useEffect, type JSX } from "react";
 import {
   AndroidOutlined,
-  BarChartOutlined,
   DashboardOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   NotificationOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import {
   Badge,
@@ -115,7 +113,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
             },
             {
               key: "2",
-              icon: <BarChartOutlined />,
+              icon: <UserOutlined />,
               label: "Profile",
             },
             {

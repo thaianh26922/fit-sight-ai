@@ -21,10 +21,10 @@ import { useState, useRef } from 'react';
 import Webcam from 'react-webcam';
 
 type TSendMessageFormProps = {
-  onSend?: (text: string, images: UploadFile[]) => void;
+  onChat?: (text: string, images: UploadFile[]) => void;
 };
 
-const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
+const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
   const [form] = Form.useForm();
   const [images, setImages] = useState<UploadFile[]>([]);
   const [showCamera, setShowCamera] = useState(false);
@@ -41,7 +41,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
   const handleSubmit = ({ message }: { message: string }) => {
     const trimmed = message.trim();
     if (!trimmed && images.length === 0) return;
-    onSend?.(trimmed, images);
+    onChat?.(trimmed, images);
     form.resetFields();
     setImages([]);
   };
@@ -60,7 +60,6 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
             uid: `${Date.now()}`,
             name: file.name,
             status: 'done',
-            originFileObj: file,
           };
 
           setImages((prev) => [...prev, newFile]);
@@ -73,7 +72,6 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
     <>
       <Form form={form} onFinish={handleSubmit}>
         <Row gutter={[24, 24]}>
-          {/* Preview ảnh đã chọn */}
           {images.length > 0 && (
             <Col span={24}>
               <Space>
@@ -106,7 +104,6 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
             </Col>
           )}
 
-          {/* Input + Actions */}
           <Col span={24}>
             <Row gutter={8} align="bottom" wrap={false}>
               <Col flex="auto">
@@ -124,12 +121,10 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
                 </Form.Item>
               </Col>
 
-              {/* Nút mở camera */}
               <Col>
                 <Button icon={<CameraOutlined />} onClick={() => setShowCamera(true)} />
               </Col>
 
-              {/* Nút chọn ảnh */}
               <Col>
                 <Upload
                   listType="picture"
@@ -145,7 +140,6 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
                 </Upload>
               </Col>
 
-              {/* Nút gửi */}
               <Col>
                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} />
               </Col>
@@ -154,7 +148,6 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
         </Row>
       </Form>
 
-      {/* Modal nhỏ gọn hiển thị camera (dùng Card, không Modal) */}
       {showCamera && (
         <div
           style={{

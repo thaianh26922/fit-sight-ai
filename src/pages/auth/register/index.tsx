@@ -1,33 +1,50 @@
 import React, { useState } from 'react'
 import { Row, Col, Form, Input, Button, Typography, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import logo from '../../../assets/images/logo.png'
 
 const { Text } = Typography
 
-const Register: React.FC = () => {
-  const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate() 
+// Kiểu dữ liệu cho form đăng ký
+type RegisterFormValues = {
+  email: string
+  password: string
+  confirmPassword: string
+}
 
-  const onFinish = async (values: any) => {
+// Kiểu phản hồi từ API (nếu cần dùng chi tiết hơn)
+type RegisterResponse = {
+  message?: string
+}
+
+const Register: React.FC = () => {
+  const [form] = Form.useForm<RegisterFormValues>()
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+
+  const onFinish = async (values: RegisterFormValues) => {
     const { email, password } = values
     setLoading(true)
 
     try {
-      const response = await axios.post(
+      await axios.post<RegisterResponse>(
         'https://7b45-58-187-228-118.ngrok-free.app/auth/register',
         { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       )
-      console.log(response)
+
       message.success('Đăng ký thành công!')
       form.resetFields()
-      navigate('/login') 
-    } catch (error: any) {
-      if (error.response?.data?.message) {
-        message.error(error.response.data.message)
+      navigate('/login')
+    } catch (error) {
+      const err = error as AxiosError<{ message?: string }>
+      if (err.response?.data?.message) {
+        message.error(err.response.data.message)
       } else {
         message.error('Lỗi kết nối đến máy chủ')
       }
