@@ -13,11 +13,10 @@ import {
   Row,
   Upload,
   Space,
-  Modal,
 } from 'antd';
 import type { UploadFile } from 'antd';
-import type { RcFile, UploadChangeParam } from 'antd/es/upload';
-import { useRef, useState } from 'react';
+import type { UploadChangeParam } from 'antd/es/upload';
+import { useState, useRef } from 'react';
 import Webcam from 'react-webcam';
 
 type TSendMessageFormProps = {
@@ -27,8 +26,7 @@ type TSendMessageFormProps = {
 const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
   const [form] = Form.useForm();
   const [images, setImages] = useState<UploadFile[]>([]);
-  const [cameraOpen, setCameraOpen] = useState(false);
-
+  const [showCamera, setShowCamera] = useState(false);
   const webcamRef = useRef<Webcam>(null);
 
   const handleImageChange = ({ fileList }: UploadChangeParam<UploadFile>) => {
@@ -47,31 +45,29 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
     setImages([]);
   };
 
- const handleCapture = () => {
-  const imageSrc = webcamRef.current?.getScreenshot();
-  if (imageSrc) {
-    fetch(imageSrc)
-      .then(res => res.blob())
-      .then(blob => {
-        const file = new File([blob], `camera_${Date.now()}.jpg`, { type: 'image/jpeg' });
+  const handleCapture = () => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], `camera_${Date.now()}.jpg`, {
+            type: 'image/jpeg',
+          });
 
-        const rcFile = Object.assign(file, {
-          uid: `${Date.now()}`,
-          lastModifiedDate: new Date(file.lastModified),
-        }) as RcFile;
+          const newFile: UploadFile = {
+            uid: `${Date.now()}`,
+            name: file.name,
+            status: 'done',
+            originFileObj: file,
+          };
 
-        const newFile: UploadFile = {
-          uid: rcFile.uid,
-          name: rcFile.name,
-          status: 'done',
-          originFileObj: rcFile,
-        };
+          setImages(prev => [...prev, newFile]);
+          setShowCamera(false);
+        });
+    }
+  };
 
-        setImages((prev) => [...prev, newFile]);
-        setCameraOpen(false);
-      });
-  }
-};
   return (
     <>
       <Form form={form} onFinish={handleSubmit}>
@@ -125,12 +121,12 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
                 </Form.Item>
               </Col>
 
-              {/* Camera Button */}
+              {/* Nút mở camera */}
               <Col>
-                <Button icon={<CameraOutlined />} onClick={() => setCameraOpen(true)} />
+                <Button icon={<CameraOutlined />} onClick={() => setShowCamera(!showCamera)} />
               </Col>
 
-              {/* Upload Button */}
+              {/* Upload từ thư viện ảnh */}
               <Col>
                 <Upload
                   listType="picture"
@@ -146,7 +142,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
                 </Upload>
               </Col>
 
-              {/* Submit Button */}
+              {/* Gửi */}
               <Col>
                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} />
               </Col>
@@ -155,25 +151,22 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onSend }) => {
         </Row>
       </Form>
 
-      {/* Modal Camera */}
-      <Modal
-        open={cameraOpen}
-        onCancel={() => setCameraOpen(false)}
-        onOk={handleCapture}
-        okText="Chụp ảnh"
-        cancelText="Hủy"
-        centered
-      >
-        <Webcam
-          ref={webcamRef}
-          audio={false}
-          screenshotFormat="image/jpeg"
-          width="100%"
-          videoConstraints={{
-            facingMode: 'environment', // camera sau
-          }}
-        />
-      </Modal>
+      {/* Giao diện camera riêng, không dùng antd */}
+      {showCamera && (
+        <div style={{ marginTop: 16, padding: 12, border: '1px solid #ccc', borderRadius: 6 }}>
+          <Webcam
+            ref={webcamRef}
+            audio={false}
+            screenshotFormat="image/jpeg"
+            width="100%"
+            videoConstraints={{ facingMode: 'environment' }}
+          />
+          <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
+            <button onClick={handleCapture}>📸 Chụp ảnh</button>
+            <button onClick={() => setShowCamera(false)}>❌ Đóng camera</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
