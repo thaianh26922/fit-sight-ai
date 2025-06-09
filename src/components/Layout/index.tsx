@@ -1,5 +1,8 @@
 import { useState, useEffect, type JSX } from "react";
 import {
+  AndroidOutlined,
+  BarChartOutlined,
+  DashboardOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   NotificationOutlined,
@@ -107,17 +110,17 @@ export default function LayoutApp({ children }: ILayoutApp) {
           items={[
             {
               key: "1",
-              icon: <UserOutlined />,
+              icon: <AndroidOutlined />,
               label: "FitInsight AI",
             },
             {
               key: "2",
-              icon: <VideoCameraOutlined />,
+              icon: <BarChartOutlined />,
               label: "Profile",
             },
             {
               key: "3",
-              icon: <VideoCameraOutlined />,
+              icon: <DashboardOutlined />,
               label: "Payment",
             },
           ]}

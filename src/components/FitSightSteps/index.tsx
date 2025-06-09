@@ -1,145 +1,111 @@
 import React, { useState } from 'react';
-import { Modal, Radio, Button, Upload, message } from 'antd';
-import type { UploadFile, UploadChangeParam } from 'antd/es/upload';
-import Home from '../../pages/Home';
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  Upload,
+  Button,
+  message,
+} from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import type { RcFile, UploadFile } from 'antd/es/upload/interface';
 
-const FitSightSteps: React.FC = () => {
-  const [visible, setVisible] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [gender, setGender] = useState<'Nam' | 'Nữ' | null>(null);
-  const [uploadedImages, setUploadedImages] = useState<UploadFile[]>([]);
-  const [trainingGroup, setTrainingGroup] = useState<'Gym' | 'Workout' | null>(null);
-  const [finished, setFinished] = useState(false);
+interface Props {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (formData: {
+    name: string;
+    age: string;
+    gender: string;
+    goal: string;
+    image: RcFile;
+  }) => void;
+}
 
-  const totalSteps = 4;
+const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
+  const [form] = Form.useForm();
+  const [file, setFile] = useState<UploadFile | null>(null);
 
-  const next = () => {
-    if (currentStep === 1 && !gender) {
-      message.error('Vui lòng chọn giới tính trước khi tiếp tục.');
-      return;
-    }
-    if (currentStep === 2 && uploadedImages.length === 0) {
-      message.error('Vui lòng tải lên ít nhất một bức ảnh.');
-      return;
-    }
-    if (currentStep === 3 && !trainingGroup) {
-      message.error('Vui lòng chọn nhóm luyện tập.');
-      return;
-    }
-
-    if (currentStep === totalSteps - 1) {
-      setVisible(false);
-      setFinished(true);
-    } else {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const prev = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const uploadProps = {
-    beforeUpload: (file: UploadFile) => {
-      const isImage = file.type?.startsWith('image/');
-      if (!isImage) {
-        message.error('Chỉ cho phép tải lên file ảnh!');
+  const handleFinish = () => {
+    form.validateFields().then((values) => {
+      if (!file || !file.originFileObj) {
+        message.error('Vui lòng chọn ảnh');
+        return;
       }
-      return false; // Prevent automatic upload
-    },
-    onChange: (info: UploadChangeParam<UploadFile>) => {
-      setUploadedImages(info.fileList);
-    },
-    fileList: uploadedImages,
-    multiple: true,
-    listType: 'picture-card' as const,
+
+      onSubmit({ ...values, image: file.originFileObj as RcFile });
+      form.resetFields();
+      setFile(null);
+      onClose();
+    });
   };
 
   return (
-    <>
-      <Modal
-        title="FitSight - Hướng dẫn"
-        visible={visible}
-        footer={null}
-        width={600}
-        bodyStyle={{ padding: 24 }}
-        maskClosable
-      >
-        {currentStep === 0 && (
-          <>
-            <h2>Giới thiệu FitSight</h2>
-            <p>Xin chào! Mình là FitSight, trợ lý ảo đến từ dự án FitSight – Giải pháp cá nhân hóa sức khỏe từ hình ảnh.</p>
-            <p>Mình sẽ đồng hành cùng bạn trong hành trình cải thiện vóc dáng, đưa ra các gợi ý luyện tập và chế độ ăn phù hợp dựa trên hình ảnh của chính bạn.</p>
-            <p>Bắt đầu nhé?</p>
-          </>
-        )}
+    <Modal
+      open={open}
+      title="Nhập thông tin của bạn"
+      onCancel={() => {
+        form.resetFields();
+        setFile(null);
+        onClose();
+      }}
+      footer={null}
+    >
+      <Form form={form} layout="vertical">
+        <Form.Item
+          name="name"
+          label="Họ và tên"
+          rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
+        >
+          <Input />
+        </Form.Item>
 
-        {currentStep === 1 && (
-          <>
-            <h2>Chọn giới tính</h2>
-            <p>Trước tiên, cho mình biết bạn thuộc giới tính nào nhé?</p>
-            <Radio.Group
-              onChange={(e) => setGender(e.target.value)}
-              value={gender}
-              optionType="button"
-              buttonStyle="solid"
-              style={{ marginBottom: 24 }}
-            >
-              <Radio.Button value="Nam">Nam</Radio.Button>
-              <Radio.Button value="Nữ">Nữ</Radio.Button>
-            </Radio.Group>
-          </>
-        )}
+        <Form.Item
+          name="age"
+          label="Tuổi"
+          rules={[{ required: true, message: 'Vui lòng nhập tuổi' }]}
+        >
+          <Input />
+        </Form.Item>
 
-        {currentStep === 2 && (
-          <>
-            <h2>Tải ảnh để đánh giá</h2>
-            <p>Giờ bạn hãy gửi một bức ảnh toàn thân gần đây của mình (tốt nhất là trong tư thế đứng thẳng, rõ ràng) để mình có thể đánh giá vóc dáng hiện tại của bạn nhé.</p>
-            <p>Yên tâm là hình ảnh của bạn sẽ được bảo mật tuyệt đối!</p>
-            <Upload {...uploadProps}>
-              {uploadedImages.length < 3 && <div style={{ color: '#34c759' }}>Tải lên ảnh</div>}
-            </Upload>
-          </>
-        )}
+        <Form.Item
+          name="gender"
+          label="Giới tính"
+          rules={[{ required: true, message: 'Vui lòng chọn giới tính' }]}
+        >
+          <Select placeholder="Chọn giới tính">
+            <Select.Option value="Nam">Nam</Select.Option>
+            <Select.Option value="Nữ">Nữ</Select.Option>
+          </Select>
+        </Form.Item>
 
-        {currentStep === 3 && (
-          <>
-            <h2>Chọn nhóm luyện tập</h2>
-            <p>Mình muốn hiểu rõ hơn mục tiêu luyện tập của bạn. Bạn thuộc nhóm nào dưới đây?</p>
-            <Radio.Group
-              onChange={(e) => setTrainingGroup(e.target.value)}
-              value={trainingGroup}
-              optionType="button"
-              buttonStyle="solid"
-              style={{ marginBottom: 24 }}
-            >
-              <Radio.Button value="Gym">Người tập Gym (có thiết bị và máy móc)</Radio.Button>
-              <Radio.Button value="Workout">Người tập Workout (tập không dụng cụ)</Radio.Button>
-            </Radio.Group>
-          </>
-        )}
+        <Form.Item
+          name="goal"
+          label="Mục tiêu tập luyện"
+          rules={[{ required: true, message: 'Vui lòng nhập mục tiêu' }]}
+        >
+          <Input />
+        </Form.Item>
 
-        <div style={{ marginTop: 24, textAlign: 'right' }}>
-          {currentStep > 0 && (
-            <Button
-              style={{ marginRight: 8 }}
-              onClick={prev}
-            >
-              Quay lại
-            </Button>
-          )}
-          <Button
-            type="primary"
-            style={{ backgroundColor: '#34c759', borderColor: '#34c759' }}
-            onClick={next}
+        <Form.Item label="Ảnh cá nhân" required>
+          <Upload
+            beforeUpload={() => false}
+            maxCount={1}
+            accept="image/*"
+            onChange={(info) => setFile(info.fileList[0])}
           >
-            {currentStep === totalSteps - 1 ? 'Hoàn thành' : 'Tiếp tục'}
-          </Button>
-        </div>
-      </Modal>
+            <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
+          </Upload>
+        </Form.Item>
 
-      {finished && <Home />}
-    </>
+        <Form.Item>
+          <Button type="primary" onClick={handleFinish} block>
+            Gửi thông tin
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
   );
 };
 

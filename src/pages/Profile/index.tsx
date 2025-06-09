@@ -1,5 +1,5 @@
-import React from 'react'
-import { Row, Col, Card, Table } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Row, Col, Card, Table, message } from 'antd'
 import {
   RadarChart,
   PolarGrid,
@@ -13,49 +13,74 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import 'react-image-gallery/styles/css/image-gallery.css'
-import BodyModel from '../../components/BodyModel'
+import axios from 'axios'
 import PageHeader from '../../widgets/LazyLoading/PageHeader'
+import { DatePicker } from 'antd'
 
-import { DatePicker } from 'antd';
-
-
-const { RangePicker } = DatePicker;
-
-// Dữ liệu biểu đồ Radar
-const radarData = [
-  { subject: 'Sức mạnh', A: 120, fullMark: 150 },
-  { subject: 'Bền bỉ', A: 98, fullMark: 150 },
-  { subject: 'Dẻo dai', A: 86, fullMark: 150 },
-  { subject: 'Trao đổi chất', A: 99, fullMark: 150 },
-  { subject: 'Tư thế', A: 85, fullMark: 150 },
-]
-
-// Dữ liệu biểu đồ Pie (mỡ, cơ, nước)
-const pieData = [
-  { name: 'Mỡ cơ thể', value: 25 },
-  { name: 'Cơ bắp', value: 45 },
-  { name: 'Nước', value: 30 },
-]
+const { RangePicker } = DatePicker
+import Cookies from "js-cookie";
 
 const COLORS = ['#FF6384', '#34c759', '#36A2EB']
 
-// Dữ liệu bảng
-const days = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu']
-
-const workoutSchedule = days.map((day, i) => ({
-  key: i,
-  day,
-  activity: 'Tập toàn thân 30 phút',
-}))
-
-const dietSchedule = days.map((day, i) => ({
-  key: i,
-  day,
-  meals: 'Ăn sáng: Yến mạch\nTrưa: Ức gà + rau\nTối: Trứng + rau',
-}))
-
 const Profile: React.FC = () => {
+  const [radarData, setRadarData] = useState([])
+  const [pieData, setPieData] = useState([])
+  const [workoutSchedule, setWorkoutSchedule] = useState([])
+  const [dietSchedule, setDietSchedule] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Cookies.get('accessToken');
+      try {
+        const res = await axios.get('https://7b45-58-187-228-118.ngrok-free.app/fitness/history', {
+          headers: {
+            'Content-Type': 'text/plain',
+            Authorization:
+              `Bearer ${token}`,
+          },
+        })
+
+        const data = res.data
+        const stats = data.bodyStats[0]
+        const comp = data.bodyComposition[0]
+
+        setRadarData([
+          { subject: 'Sức mạnh', A: stats.strength * 15, fullMark: 150 },
+          { subject: 'Bền bỉ', A: stats.endurance * 15, fullMark: 150 },
+          { subject: 'Dẻo dai', A: stats.flexibility * 15, fullMark: 150 },
+          { subject: 'Trao đổi chất', A: stats.metabolism * 15, fullMark: 150 },
+          { subject: 'Tư thế', A: stats.posture * 15, fullMark: 150 },
+        ])
+
+        setPieData([
+          { name: 'Mỡ cơ thể', value: comp.fat },
+          { name: 'Cơ bắp', value: comp.muscle },
+          { name: 'Nước', value: comp.water },
+        ])
+
+        setWorkoutSchedule(
+          data.workoutSchedule.map((item: any, i: number) => ({
+            key: i,
+            day: item.day,
+            activity: item.activity,
+          }))
+        )
+
+        setDietSchedule(
+          data.mealPlan.map((item: any, i: number) => ({
+            key: i,
+            day: item.day,
+            meals: `Ăn sáng: ${item.breakfast}\nTrưa: ${item.lunch}\nTối: ${item.dinner}`,
+          }))
+        )
+      } catch (err) {
+        message.error('Không thể tải dữ liệu từ máy chủ')
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <div style={{ padding: 24 }}>
       <Row gutter={[24, 24]}>
@@ -65,16 +90,13 @@ const Profile: React.FC = () => {
             extra={
               <Row justify="end" gutter={[16, 16]}>
                 <Col xs={{ flex: 1 }} md={{ flex: 0.4 }}>
-                  <RangePicker
-                    showTime={{ format: 'HH:mm' }}
-                    format="YYYY-MM-DD HH:mm"
-                  />
+                  <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
                 </Col>
-
               </Row>
             }
           />
         </Col>
+
         <Col xs={24} md={12}>
           <Card title="Radar chỉ số thể chất">
             <ResponsiveContainer width="100%" height={300}>
@@ -92,13 +114,7 @@ const Profile: React.FC = () => {
           <Card title="Tỉ lệ thành phần cơ thể">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  outerRadius={100}
-                  label
-                >
+                <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={100} label>
                   {pieData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
@@ -110,14 +126,8 @@ const Profile: React.FC = () => {
           </Card>
         </Col>
 
-        <Col span={24}>
-          <Card title="Ảnh 3D cơ thể (Xem 360°)">
-            <BodyModel />
-          </Card>
-        </Col>
-
         <Col xs={24} md={12}>
-          <Card title="Lịch tập luyện (5 ngày)">
+          <Card title="Lịch tập luyện">
             <Table
               dataSource={workoutSchedule}
               pagination={false}
@@ -130,7 +140,7 @@ const Profile: React.FC = () => {
         </Col>
 
         <Col xs={24} md={12}>
-          <Card title="Lịch ăn uống (5 ngày)">
+          <Card title="Lịch ăn uống">
             <Table
               dataSource={dietSchedule}
               pagination={false}
