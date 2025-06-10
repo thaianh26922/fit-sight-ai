@@ -7,13 +7,11 @@ import {
   Upload,
   Button,
   message,
-  Image,
   Space,
-  Card,
 } from 'antd';
-import { UploadOutlined, CameraOutlined, CloseOutlined } from '@ant-design/icons';
-import Webcam from 'react-webcam';
+import { UploadOutlined, CameraOutlined } from '@ant-design/icons';
 import type { RcFile, UploadFile } from 'antd/es/upload/interface';
+import Webcam from 'react-webcam';
 
 interface Props {
   open: boolean;
@@ -33,6 +31,26 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
   const [showCamera, setShowCamera] = useState(false);
   const webcamRef = useRef<Webcam>(null);
 
+  const handleCapture = () => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (!imageSrc) return;
+
+    fetch(imageSrc)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], 'captured.jpg', { type: 'image/jpeg' }) as RcFile;
+        file.uid = String(Date.now()); // assign UID manually
+        setFile({
+          uid: file.uid,
+          name: file.name,
+          status: 'done',
+          url: imageSrc,
+          originFileObj: file,
+        });
+        setShowCamera(false);
+      });
+  };
+
   const handleFinish = () => {
     form.validateFields().then((values) => {
       if (!file || !file.originFileObj) {
@@ -45,28 +63,6 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
       setFile(null);
       onClose();
     });
-  };
-
-  const handleCapture = () => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    if (imageSrc) {
-      fetch(imageSrc)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const fileObj = new File([blob], `camera_${Date.now()}.jpg`, {
-            type: 'image/jpeg',
-          });
-
-          const newFile: UploadFile = {
-            uid: `${Date.now()}`,
-            name: fileObj.name,
-            status: 'done',
-          };
-
-          setFile(newFile);
-          setShowCamera(false);
-        });
-    }
   };
 
   return (
@@ -110,7 +106,7 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
           </Form.Item>
 
           <Form.Item
-            name="category"
+            name="goal"
             label="Category"
             rules={[{ required: true, message: 'Vui lòng chọn loại hoạt động' }]}
           >
@@ -126,85 +122,50 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
                 beforeUpload={() => false}
                 maxCount={1}
                 accept="image/*"
+                fileList={file ? [file] : []}
                 onChange={(info) => setFile(info.fileList[0])}
-                showUploadList={false}
               >
                 <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
               </Upload>
-              <Button icon={<CameraOutlined />} onClick={() => setShowCamera(true)}>
+
+              <Button
+                icon={<CameraOutlined />}
+                onClick={() => setShowCamera(true)}
+              >
                 Chụp ảnh
               </Button>
             </Space>
-
-            {file?.originFileObj && (
-              <div style={{ marginTop: 16, position: 'relative', display: 'inline-block' }}>
-                <Image
-                  width={80}
-                  height={80}
-                  src={URL.createObjectURL(file.originFileObj)}
-                  style={{ objectFit: 'cover', borderRadius: 8 }}
-                  preview={false}
-                />
-                <Button
-                  size="small"
-                  shape="circle"
-                  icon={<CloseOutlined />}
-                  onClick={() => setFile(null)}
-                  style={{
-                    position: 'absolute',
-                    top: -8,
-                    right: -8,
-                    background: '#fff',
-                    boxShadow: '0 0 3px rgba(0,0,0,0.3)',
-                  }}
-                />
-              </div>
-            )}
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" block onClick={handleFinish}>
+            <Button type="primary" onClick={handleFinish} block>
               Gửi thông tin
             </Button>
           </Form.Item>
         </Form>
       </Modal>
 
-      {showCamera && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 9999,
-            width: 340,
-            maxWidth: '90%',
-          }}
-        >
-          <Card
-            title="Chụp ảnh"
-            bordered
-            bodyStyle={{ padding: 12 }}
-            actions={[
-              <Button key="capture" type="primary" onClick={handleCapture}>
-                📸 Chụp
-              </Button>,
-              <Button key="close" onClick={() => setShowCamera(false)}>
-                ❌ Đóng
-              </Button>,
-            ]}
-          >
-            <Webcam
-              ref={webcamRef}
-              audio={false}
-              screenshotFormat="image/jpeg"
-              width="100%"
-              videoConstraints={{ facingMode: 'user' }}
-            />
-          </Card>
-        </div>
-      )}
+      {/* Modal camera */}
+      <Modal
+        open={showCamera}
+        title="Chụp ảnh từ camera"
+        onCancel={() => setShowCamera(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setShowCamera(false)}>
+            Hủy
+          </Button>,
+          <Button key="capture" type="primary" onClick={handleCapture}>
+            Chụp ảnh
+          </Button>,
+        ]}
+      >
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          style={{ width: '100%' }}
+        />
+      </Modal>
     </>
   );
 };
