@@ -1,8 +1,8 @@
 import {
-  FileImageOutlined,
+  // FileImageOutlined,
   CloseOutlined,
   SendOutlined,
-  CameraOutlined,
+  // CameraOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -11,14 +11,14 @@ import {
   Image,
   Input,
   Row,
-  Upload,
+  // Upload,
   Space,
-  Card,
+  // Card,
 } from 'antd';
 import type { UploadFile } from 'antd';
-import type { UploadChangeParam } from 'antd/es/upload';
-import { useState, useRef } from 'react';
-import Webcam from 'react-webcam';
+// import type { UploadChangeParam } from 'antd/es/upload';
+import { useState} from 'react';
+// import Webcam from 'react-webcam';
 
 type TSendMessageFormProps = {
   onChat?: (text: string, images: UploadFile[]) => void;
@@ -27,12 +27,12 @@ type TSendMessageFormProps = {
 const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
   const [form] = Form.useForm();
   const [images, setImages] = useState<UploadFile[]>([]);
-  const [showCamera, setShowCamera] = useState(false);
-  const webcamRef = useRef<Webcam>(null);
+  // const [showCamera, setShowCamera] = useState(false);
+  // const webcamRef = useRef<Webcam>(null);
 
-  const handleImageChange = ({ fileList }: UploadChangeParam<UploadFile>) => {
-    setImages(fileList);
-  };
+  // const handleImageChange = ({ fileList }: UploadChangeParam<UploadFile>) => {
+  //   setImages(fileList);
+  // };
 
   const handleRemoveImage = (uid: string) => {
     setImages((prev) => prev.filter((file) => file.uid !== uid));
@@ -46,27 +46,27 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
     setImages([]);
   };
 
-  const handleCapture = () => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    if (imageSrc) {
-      fetch(imageSrc)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const file = new File([blob], `camera_${Date.now()}.jpg`, {
-            type: 'image/jpeg',
-          });
+  // const handleCapture = () => {
+  //   const imageSrc = webcamRef.current?.getScreenshot();
+  //   if (imageSrc) {
+  //     fetch(imageSrc)
+  //       .then((res) => res.blob())
+  //       .then((blob) => {
+  //         const file = new File([blob], `camera_${Date.now()}.jpg`, {
+  //           type: 'image/jpeg',
+  //         });
 
-          const newFile: UploadFile = {
-            uid: `${Date.now()}`,
-            name: file.name,
-            status: 'done',
-          };
+  //         const newFile: UploadFile = {
+  //           uid: `${Date.now()}`,
+  //           name: file.name,
+  //           status: 'done',
+  //         };
 
-          setImages((prev) => [...prev, newFile]);
-          setShowCamera(false);
-        });
-    }
-  };
+  //         setImages((prev) => [...prev, newFile]);
+  //         setShowCamera(false);
+  //       });
+  //   }
+  // };
 
   return (
     <>
@@ -121,11 +121,11 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
                 </Form.Item>
               </Col>
 
-              <Col>
+              {/* <Col>
                 <Button icon={<CameraOutlined />} onClick={() => setShowCamera(true)} />
-              </Col>
+              </Col> */}
 
-              <Col>
+              {/* <Col>
                 <Upload
                   listType="picture"
                   fileList={images}
@@ -138,7 +138,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
                 >
                   <Button icon={<FileImageOutlined />} />
                 </Upload>
-              </Col>
+              </Col> */}
 
               <Col>
                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} />
@@ -148,7 +148,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
         </Row>
       </Form>
 
-      {showCamera && (
+      {/* {showCamera && (
         <div
           style={{
             position: 'fixed',
@@ -182,7 +182,7 @@ const SendMessageForm: React.FC<TSendMessageFormProps> = ({ onChat }) => {
             />
           </Card>
         </div>
-      )}
+      )} */}
     </>
   );
 };

@@ -292,7 +292,7 @@ ${meal.map(
         <Footer style={{ padding: '12px', background: '#fff', borderTop: '1px solid #f0f0f0' }}>
           {loadingProfile ? (
             <Spin />
-          ) : isChatEnabled ? (
+          ) : isChatEnabled ? ( 
             <SendMessageForm onChat={handleChat} />
           ) : (
             <Space direction="vertical" style={{ width: '100%' }} align="center">

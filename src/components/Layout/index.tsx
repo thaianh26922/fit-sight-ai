@@ -35,6 +35,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
   const [selectedKey, setSelectedKey] = useState("1");
   const [userName, setUserName] = useState('');
   const [loadingProfile, setLoadingProfile] = useState(true);
+  const [notifications, setNotifications] = useState<{ id: number; title: string }[]>([]);
   const screens = useBreakpoint();
   const navigate = useNavigate();
 
@@ -47,20 +48,14 @@ export default function LayoutApp({ children }: ILayoutApp) {
     "3": "/payment",
   };
 
-  const notifications = [
-    { id: 1, title: "Bạn có lịch tập mới hôm nay" },
-    { id: 2, title: "Hệ thống cập nhật dữ liệu sức khỏe" },
-    { id: 3, title: "Đạt mục tiêu tuần này, tuyệt vời!" }, 
-  ];
-
   // 📱 Auto collapse nếu là màn hình mobile
   useEffect(() => {
     if (!screens.lg) {
       setCollapsed(true);
     }
   }, [screens.lg]);
- 
-  // 🔐 Lấy accessToken và gọi API profile
+
+  // 🔐 Lấy accessToken và gọi API profile + notifications
   useEffect(() => {
     const token = Cookies.get("accessToken");
 
@@ -88,7 +83,26 @@ export default function LayoutApp({ children }: ILayoutApp) {
       }
     };
 
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(
+          "https://7b45-58-187-228-118.ngrok-free.app/notifications",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = response.data?.data || [];
+        setNotifications(data);
+      } catch (error) {
+        console.error("Lỗi khi gọi API notifications:", error);
+        setNotifications([]);
+      }
+    };
+
     fetchProfile();
+    fetchNotifications();
   }, [navigate]);
 
   return (
@@ -151,7 +165,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
                   >
                     <List
                       dataSource={notifications}
-                      renderItem={(item) => <List.Item>{item.title}</List.Item>}
+                      renderItem={(item) => <List.Item key={item.id}>{item.title}</List.Item>}
                       locale={{ emptyText: "Không có thông báo nào" }}
                     />
                   </Card>
