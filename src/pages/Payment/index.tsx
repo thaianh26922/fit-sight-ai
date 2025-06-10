@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Col, Row, Button, Table, Typography, Space, message } from 'antd'
+import { Card, Col, Row, Button, Typography, Space, message } from 'antd'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 
@@ -26,50 +26,50 @@ const plans = [
   },
 ]
 
-const historyData = [
-  {
-    key: '1',
-    date: '02/06/2025',
-    plan: 'Gói Tháng',
-    amount: '99.000đ',
-    status: 'Thành công',
-  },
-  {
-    key: '2',
-    date: '01/05/2025',
-    plan: 'Gói Tháng',
-    amount: '99.000đ',
-    status: 'Thành công',
-  },
-]
+// const historyData = [
+//   {
+//     key: '1',
+//     date: '02/06/2025',
+//     plan: 'Gói Tháng',
+//     amount: '99.000đ',
+//     status: 'Thành công',
+//   },
+//   {
+//     key: '2',
+//     date: '01/05/2025',
+//     plan: 'Gói Tháng',
+//     amount: '99.000đ',
+//     status: 'Thành công',
+//   },
+// ]
 
-const columns = [
-  {
-    title: 'Ngày giao dịch',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: 'Gói',
-    dataIndex: 'plan',
-    key: 'plan',
-  },
-  {
-    title: 'Số tiền',
-    dataIndex: 'amount',
-    key: 'amount',
-  },
-  {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
-    render: (status: string) => (
-      <Text type={status === 'Thành công' ? 'success' : 'danger'}>
-        {status}
-      </Text>
-    ),
-  },
-]
+// const columns = [
+//   {
+//     title: 'Ngày giao dịch',
+//     dataIndex: 'date',
+//     key: 'date',
+//   },
+//   {
+//     title: 'Gói',
+//     dataIndex: 'plan',
+//     key: 'plan',
+//   },
+//   {
+//     title: 'Số tiền',
+//     dataIndex: 'amount',
+//     key: 'amount',
+//   },
+//   {
+//     title: 'Trạng thái',
+//     dataIndex: 'status',
+//     key: 'status',
+//     render: (status: string) => (
+//       <Text type={status === 'Thành công' ? 'success' : 'danger'}>
+//         {status}
+//       </Text>
+//     ),
+//   },
+// ]
 const Payment: React.FC = () => {
   const handleSubscribe = async (planKey: string) => {
     const token = Cookies.get('accessToken')
@@ -135,14 +135,14 @@ const Payment: React.FC = () => {
         ))}
       </Row>
 
-      <Title level={4}>Lịch sử giao dịch</Title>
+      {/* <Title level={4}>Lịch sử giao dịch</Title>
       <Table
         columns={columns}
         dataSource={historyData}
         pagination={{ pageSize: 5 }}
         bordered
         rowKey="key"
-      />
+      /> */}
     </div>
   )
 }
