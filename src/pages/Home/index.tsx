@@ -14,9 +14,11 @@ import type { UploadFile } from 'antd';
 import type { RcFile } from 'antd/es/upload/interface';
 import FitSightSteps from '../../components/FitSightSteps';
 import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-const { Content, Footer } = Layout;
+// const { Content, Footer } = Layout;
+const { Content } = Layout;
+
 const { Text } = Typography;
 
 type Message = {
@@ -61,47 +63,47 @@ type AnalyzeResponse = {
   };
 };
 
-type ProfileResponse = {
-  data: {
-    user: {
-      is_chat: boolean;
-    };
-  };
-};
+// type ProfileResponse = {
+//   data: {
+//     user: {
+//       is_chat: boolean;
+//     };
+//   };
+// };
 
 const Home: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isChatEnabled, setIsChatEnabled] = useState(true);
-  const [loadingProfile, setLoadingProfile] = useState(true);
+  // const [isChatEnabled, setIsChatEnabled] = useState(true);
+  // const [loadingProfile, setLoadingProfile] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const token = Cookies.get('accessToken');
-      try {
-        const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const result: ProfileResponse = await response.json();
-        const user = result?.data?.user;
-        setIsChatEnabled(user?.is_chat !== false);
-      } catch (error) {
-        console.error('Lỗi khi gọi API profile:', error);
-        setIsChatEnabled(false);
-      } finally {
-        setLoadingProfile(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     const token = Cookies.get('accessToken');
+  //     try {
+  //       const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/auth/profile', {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       // const result: ProfileResponse = await response.json();
+  //       // const user = result?.data?.user;
+  //       // setIsChatEnabled(user?.is_chat !== false);
+  //     } catch (error) {
+  //       console.error('Lỗi khi gọi API profile:', error);
+  //       // setIsChatEnabled(false);
+  //     } finally {
+  //       // setLoadingProfile(false);
+  //     }
+  //   };
+  //   fetchProfile();
+  // }, []);
 
   useEffect(() => {
     const fetchHistory = async () => {
