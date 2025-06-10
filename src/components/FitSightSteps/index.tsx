@@ -8,8 +8,9 @@ import {
   Button,
   message,
   Space,
+  Image,
 } from 'antd';
-import { UploadOutlined, CameraOutlined } from '@ant-design/icons';
+import { UploadOutlined, CameraOutlined, CloseOutlined } from '@ant-design/icons';
 import type { RcFile, UploadFile } from 'antd/es/upload/interface';
 import Webcam from 'react-webcam';
 
@@ -39,7 +40,7 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
       .then(res => res.blob())
       .then(blob => {
         const file = new File([blob], 'captured.jpg', { type: 'image/jpeg' }) as RcFile;
-        file.uid = String(Date.now()); // assign UID manually
+        file.uid = String(Date.now());
         setFile({
           uid: file.uid,
           name: file.name,
@@ -63,6 +64,10 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
       setFile(null);
       onClose();
     });
+  };
+
+  const removeImage = () => {
+    setFile(null);
   };
 
   return (
@@ -117,23 +122,44 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
           </Form.Item>
 
           <Form.Item label="Ảnh cá nhân" required>
-            <Space>
-              <Upload
-                beforeUpload={() => false}
-                maxCount={1}
-                accept="image/*"
-                fileList={file ? [file] : []}
-                onChange={(info) => setFile(info.fileList[0])}
-              >
-                <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
-              </Upload>
-
-              <Button
-                icon={<CameraOutlined />}
-                onClick={() => setShowCamera(true)}
-              >
-                Chụp ảnh
-              </Button>
+            <Space direction="vertical" style={{ width: '100%' }}>
+              {file?.url && (
+                <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+                  <Image
+                    src={file.url}
+                    width="100%"
+                    style={{ borderRadius: 8 }}
+                  />
+                  <Button
+                    type="text"
+                    icon={<CloseOutlined />}
+                    danger
+                    style={{ position: 'absolute', top: 8, right: 8 }}
+                    onClick={removeImage}
+                  />
+                </div>
+              )}
+              <Space>
+                <Upload
+                  beforeUpload={() => false}
+                  maxCount={1}
+                  accept="image/*"
+                  fileList={file ? [file] : []}
+                  onChange={(info) => {
+                    const uploadFile = info.fileList[0];
+                    if (uploadFile) {
+                      uploadFile.url = URL.createObjectURL(uploadFile.originFileObj as RcFile);
+                      setFile(uploadFile);
+                    }
+                  }}
+                  showUploadList={false}
+                >
+                  <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
+                </Upload>
+                <Button icon={<CameraOutlined />} onClick={() => setShowCamera(true)}>
+                  Chụp ảnh
+                </Button>
+              </Space>
             </Space>
           </Form.Item>
 
@@ -145,7 +171,6 @@ const FitSightSteps: React.FC<Props> = ({ open, onClose, onSubmit }) => {
         </Form>
       </Modal>
 
-      {/* Modal camera */}
       <Modal
         open={showCamera}
         title="Chụp ảnh từ camera"
