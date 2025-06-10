@@ -287,8 +287,9 @@ ${meal.map(
           <div ref={bottomRef} />
         </Space>
       </Content>
+      <SendMessageForm onChat={handleChat} />
 
-      {!(isChatEnabled) && (
+      {/* {!(isChatEnabled) && (
         <Footer style={{ padding: '12px', background: '#fff', borderTop: '1px solid #f0f0f0' }}>
           {loadingProfile ? (
             <Spin />
@@ -305,7 +306,7 @@ ${meal.map(
             </Space>
           )}
         </Footer>
-      )}
+      )} */}
 
       <FitSightSteps open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={handleAnalyzeSubmit} />
     </div>
