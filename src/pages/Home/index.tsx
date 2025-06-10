@@ -288,7 +288,7 @@ ${meal.map(
         </Space>
       </Content>
 
-      {!(messages.length === 0 && !isChatEnabled) && (
+      {!(isChatEnabled) && (
         <Footer style={{ padding: '12px', background: '#fff', borderTop: '1px solid #f0f0f0' }}>
           {loadingProfile ? (
             <Spin />
