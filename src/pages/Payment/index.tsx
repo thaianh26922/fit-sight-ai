@@ -9,19 +9,19 @@ const plans = [
   {
     key: 'monthly',
     title: 'Gói Tháng',
-    price: '99.000đ / tháng',
+    price: '59.000đ / tháng',
     description: 'Truy cập Premium trong 30 ngày',
   },
   {
     key: 'quarterly',
     title: 'Gói Quý',
-    price: '249.000đ / 3 tháng',
+    price: '159.000đ / 3 tháng',
     description: 'Tiết kiệm 16%, gia hạn 3 tháng',
   },
   {
     key: 'yearly',
     title: 'Gói Năm',
-    price: '799.000đ / năm',
+    price: '490.000đ / năm',
     description: 'Tiết kiệm 33%, dùng 12 tháng',
   },
 ]
