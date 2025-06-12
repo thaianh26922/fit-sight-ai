@@ -87,7 +87,7 @@ const Home: React.FC = () => {
   //   const fetchProfile = async () => {
   //     const token = Cookies.get('accessToken');
   //     try {
-  //       const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/auth/profile', {
+  //       const response = await fetch('https://ee33-58-187-228-107.ngrok-free.app/auth/profile', {
   //         headers: {
   //           Authorization: `Bearer ${token}`,
   //         },
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
       setLoading(true);
       const token = Cookies.get('accessToken');
       try {
-        const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/chat/history', {
+        const response = await fetch('https://ee33-58-187-228-107.ngrok-free.app/chat/history', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -143,7 +143,7 @@ const Home: React.FC = () => {
     setLoading(true);
     const token = Cookies.get('accessToken');
     try {
-      const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/chat/normal', {
+      const response = await fetch('https://ee33-58-187-228-107.ngrok-free.app/chat/normal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ const Home: React.FC = () => {
     formData.append('image', info.image);
     const token = Cookies.get('accessToken');
     try {
-      const response = await fetch('https://7b45-58-187-228-118.ngrok-free.app/chat/analyze', {
+      const response = await fetch('https://ee33-58-187-228-107.ngrok-free.app/chat/analyze', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
