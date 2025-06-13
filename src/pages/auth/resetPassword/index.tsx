@@ -38,7 +38,7 @@ const ResetPassword: React.FC = () => {
     try {
       await axios.post('https://ee33-58-187-228-107.ngrok-free.app/auth/reset-password', {
         token,
-        password,
+        newPassword: password,
       })
 
       toast.success('Đặt lại mật khẩu thành công!')
