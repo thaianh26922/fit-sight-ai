@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Form, Input, Button, Typography } from 'antd'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import logo from '../../../assets/images/logo.png'
 
@@ -15,7 +15,6 @@ type ForgotPasswordForm = {
 const ForgotPassword: React.FC = () => {
   const [form] = Form.useForm<ForgotPasswordForm>()
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
   const onFinish = async (values: ForgotPasswordForm) => {
     setLoading(true)
     try {
@@ -87,7 +86,6 @@ const ForgotPassword: React.FC = () => {
                   backgroundColor: '#34c759',
                   borderColor: '#34c759',
                 }}
-                onClick={() => {navigate('/reset-password')}}
               >
                 Gửi yêu cầu khôi phục
               </Button>
