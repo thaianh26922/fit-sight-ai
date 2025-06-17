@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
     const token = Cookies.get('accessToken')
     try {
       const res = await axios.get<FitnessHistoryResponse>(
-        `https://ee33-58-187-228-107.ngrok-free.app/fitness/history?start=${startDate}&end=${endDate}`,
+        `https://ab3d-42-114-171-67.ngrok-free.app/fitness/history?start=${startDate}&end=${endDate}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

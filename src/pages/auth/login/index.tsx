@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 
     try {
       const response = await axios.post<LoginResponse>(
-        'https://ee33-58-187-228-107.ngrok-free.app/auth/login',
+        'https://ab3d-42-114-171-67.ngrok-free.app/auth/login',
         { email, password },
         {
           headers: {
