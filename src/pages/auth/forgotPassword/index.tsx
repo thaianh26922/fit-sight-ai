@@ -18,7 +18,7 @@ const ForgotPassword: React.FC = () => {
   const onFinish = async (values: ForgotPasswordForm) => {
     setLoading(true)
     try {
-      await axios.post('https://ab3d-42-114-171-67.ngrok-free.app/auth/forgot-password', {
+      await axios.post('https://27d7-42-114-171-67.ngrok-free.app/auth/forgot-password', {
         email: values.email,
       })
 

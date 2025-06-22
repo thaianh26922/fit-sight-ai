@@ -67,7 +67,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "https://ab3d-42-114-171-67.ngrok-free.app/auth/profile",
+          "https://27d7-42-114-171-67.ngrok-free.app/auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          "https://ab3d-42-114-171-67.ngrok-free.app/notifications",
+          "https://27d7-42-114-171-67.ngrok-free.app/notifications",
           {
             headers: {
               Authorization: `Bearer ${token}`,

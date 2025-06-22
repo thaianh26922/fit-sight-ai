@@ -23,7 +23,7 @@ const Manager: React.FC = () => {
       try {
         const token = Cookies.get('accessToken')
         const response = await axios.get(
-          'https://ab3d-42-114-171-67.ngrok-free.app/users',
+          'https://27d7-42-114-171-67.ngrok-free.app/users',
           {
             headers: {
               Authorization: `Bearer ${token}`,

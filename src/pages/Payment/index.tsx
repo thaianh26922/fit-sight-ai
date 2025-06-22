@@ -81,7 +81,7 @@ const Payment: React.FC = () => {
 
     try {
       const response = await fetch(
-        `https://ab3d-42-114-171-67.ngrok-free.app/payment/create?pkg=${planKey}`,
+        `https://27d7-42-114-171-67.ngrok-free.app/payment/create?pkg=${planKey}`,
         {
           method: 'GET',
           headers: {
