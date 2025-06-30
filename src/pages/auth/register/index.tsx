@@ -29,7 +29,7 @@ const Register: React.FC = () => {
 
     try {
       await axios.post<RegisterResponse>(
-        'https://27d7-42-114-171-67.ngrok-free.app/auth/register',
+        'https://28c7-42-114-121-153.ngrok-free.app/auth/register',
         { email, password },
         {
           headers: {
