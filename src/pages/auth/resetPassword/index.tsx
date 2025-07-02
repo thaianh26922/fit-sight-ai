@@ -36,7 +36,7 @@ const ResetPassword: React.FC = () => {
 
     setLoading(true)
     try {
-      await axios.post('https://28c7-42-114-121-153.ngrok-free.app/auth/reset-password', {
+      await axios.post('https://d5f9-42-114-121-153.ngrok-free.app/auth/reset-password', {
         token,
         newPassword: password,
       })
