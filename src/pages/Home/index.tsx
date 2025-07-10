@@ -1,20 +1,19 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import { RobotOutlined, UserOutlined } from '@ant-design/icons';
+import type { UploadFile } from 'antd';
 import {
-  Layout,
   Avatar,
-  Typography,
-  Row,
   Col,
+  Layout,
+  Row,
   Space,
   Spin,
+  Typography,
 } from 'antd';
-import { UserOutlined, RobotOutlined } from '@ant-design/icons';
-import SendMessageForm from './components/SendMessageForm';
-import type { UploadFile } from 'antd';
-import type { RcFile } from 'antd/es/upload/interface';
-import FitSightSteps from '../../components/FitSightSteps';
 import Cookies from 'js-cookie';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import FitSightSteps from '../../components/FitSightSteps';
 import { AuthContext, type AnalysisData } from '../../context';
+import SendMessageForm from './components/SendMessageForm';
 // Import AuthContext và AnalysisData
 
 const { Content } = Layout;
@@ -350,7 +349,7 @@ const Home: React.FC = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Lấy hàm setAnalysisData từ AuthContext
-  const { analysisData, setAnalysisData } = useContext(AuthContext);
+  const {setAnalysisData } = useContext(AuthContext);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -435,13 +434,7 @@ const Home: React.FC = () => {
     "chu_nhat": "Chủ nhật",
   };
 
-  const handleAnalyzeSubmit = async (info: {
-    name: string;
-    age: string;
-    gender: string;
-    goal: string;
-    image: RcFile;
-  }) => {
+  const handleAnalyzeSubmit = async () => {
     setLoading(true);
     try {
       // Chọn một mục ngẫu nhiên từ analyzeData

@@ -1,19 +1,17 @@
-import { UserOutlined } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
-import { Avatar, Dropdown, Flex, Row, Space, Typography } from 'antd'
-import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { UserOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Avatar, Dropdown, Flex, Row, Space, Typography } from 'antd';
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 import Cookies from 'js-cookie'; // 👈 Thêm dòng này
-import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context'
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context';
 
 const { Text } = Typography
 
-interface Props {
-  name?: string | null;
-}
 
-export default function UserDropdownAuth({ name }: Props) {
+
+export default function UserDropdownAuth() {
   const screens = useBreakpoint()
   const navigate = useNavigate()
  const {currentUser} = useContext(AuthContext);

@@ -1,4 +1,3 @@
-import { useState, useEffect, type JSX } from "react";
 import {
   AndroidOutlined,
   DashboardOutlined,
@@ -18,11 +17,12 @@ import {
   Menu,
   Spin,
 } from "antd";
-import { useNavigate } from "react-router-dom";
-import UserDropdownAuth from "../../widgets/UserDropdownAuth";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useEffect, useState, type JSX } from "react";
+import { useNavigate } from "react-router-dom";
+import UserDropdownAuth from "../../widgets/UserDropdownAuth";
 
 const { Header, Sider, Content } = Layout;
 
@@ -39,6 +39,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
   const screens = useBreakpoint();
   const navigate = useNavigate();
 
+  console.log(userName)
   const colorBgContainer = "white";
   const borderRadiusLG = 8;
 
@@ -181,7 +182,7 @@ export default function LayoutApp({ children }: ILayoutApp) {
               {loadingProfile ? (
                 <Spin size="small" />
               ) : (
-                <UserDropdownAuth name={userName} />
+                <UserDropdownAuth />
               )}
             </Flex>
           </Flex>
