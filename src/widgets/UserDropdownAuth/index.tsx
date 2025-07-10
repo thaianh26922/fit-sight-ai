@@ -1,9 +1,11 @@
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Dropdown, Flex, Row, Space, Typography } from 'antd'
 import type { MenuProps } from 'antd'
+import { Avatar, Dropdown, Flex, Row, Space, Typography } from 'antd'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import Cookies from 'js-cookie'; // 👈 Thêm dòng này
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie' // 👈 Thêm dòng này
+import { AuthContext } from '../../context'
 
 const { Text } = Typography
 
@@ -14,7 +16,7 @@ interface Props {
 export default function UserDropdownAuth({ name }: Props) {
   const screens = useBreakpoint()
   const navigate = useNavigate()
-
+ const {currentUser} = useContext(AuthContext);
   const handleLogout = () => {
     Cookies.remove('accessToken') // 👈 Xóa token khỏi cookies
     navigate('/login')           // 👈 Điều hướng về trang đăng nhập
@@ -26,7 +28,7 @@ export default function UserDropdownAuth({ name }: Props) {
       label: (
         <Space size={10} align="center">
           <UserOutlined />
-          <Text>{name}</Text>
+          <Text>{currentUser?.name}</Text>
         </Space>
       ),
       disabled: true,
@@ -47,7 +49,7 @@ export default function UserDropdownAuth({ name }: Props) {
         <Space align="center">
           {screens.lg && (
             <Text style={{ fontSize: 16 }}>
-              {name}
+              {currentUser?.name}
             </Text>
           )}
           <Flex align="center" justify="center">

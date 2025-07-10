@@ -1,54 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { Table, Typography, Row, Col, Card, Input } from 'antd'
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import { Card, Col, Input, Row, Table, Typography } from 'antd'
 import moment from 'moment'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../context'
 
 const { Title } = Typography
 
+// Khai báo lại interface User cho đồng bộ với file AuthContext
 interface User {
-  id: string
+  id: number
   email: string
-  createdAt: string
+  name: string
+  password: string
+  createDate: string
 }
 
 const Manager: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([])
+  // Lấy userList từ AuthContext
+  const { userList } = useContext(AuthContext)
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [loading, setLoading] = useState<boolean>(true)
 
+  // Sử dụng useEffect để cập nhật danh sách người dùng khi userList hoặc searchTerm thay đổi
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = Cookies.get('accessToken')
-        const response = await axios.get(
-          'https://d5f9-42-114-121-153.ngrok-free.app/users',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-
-        setUsers(response.data.data)
-        setFilteredUsers(response.data.data)
-      } catch (error) {
-        console.error('Lỗi khi tải danh sách người dùng:', error)
-      } finally {
-        setLoading(false)
-      }
+    if (userList) {
+      // Lọc danh sách người dùng dựa trên searchTerm
+      const filtered = userList.filter((user) =>
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      setFilteredUsers(filtered as User[])
     }
-
-    fetchUsers()
-  }, [])
-
-  useEffect(() => {
-    const filtered = users.filter((user) =>
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setFilteredUsers(filtered)
-  }, [searchTerm, users])
+  }, [searchTerm, userList])
 
   const columns = [
     {
@@ -58,8 +39,8 @@ const Manager: React.FC = () => {
     },
     {
       title: 'Ngày tạo',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      dataIndex: 'createDate', // Sửa từ 'createdAt' thành 'createDate' để khớp với AuthContext
+      key: 'createDate',
       render: (date: string) => moment(date).format('DD/MM/YYYY HH:mm'),
     },
   ]
@@ -73,7 +54,7 @@ const Manager: React.FC = () => {
         <Col>
           <Card>
             <Title level={5} style={{ margin: 0 }}>
-              Tổng số người dùng: {filteredUsers.length}
+              Tổng số người dùng: {userList ? userList.length : 0}
             </Title>
           </Card>
         </Col>
@@ -90,10 +71,10 @@ const Manager: React.FC = () => {
       </Row>
 
       <Table
-        dataSource={filteredUsers}
+        dataSource={filteredUsers} // Đổi dataSource thành filteredUsers để bảng hiển thị dữ liệu đã lọc
         columns={columns}
         rowKey="id"
-        loading={loading}
+        loading={!userList} // Cập nhật trạng thái loading, hiển thị khi userList chưa có dữ liệu
         pagination={{ pageSize: 10 }}
       />
     </div>

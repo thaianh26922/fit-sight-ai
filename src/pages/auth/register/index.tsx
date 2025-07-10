@@ -1,56 +1,63 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Row, Col, Form, Input, Button, Typography, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
-import axios, { AxiosError } from 'axios'
 import logo from '../../../assets/images/logo.png'
+import { AuthContext } from '../../../context'
 
 const { Text } = Typography
 
-// Kiểu dữ liệu cho form đăng ký
 type RegisterFormValues = {
   email: string
   password: string
   confirmPassword: string
 }
 
-// Kiểu phản hồi từ API (nếu cần dùng chi tiết hơn)
-type RegisterResponse = {
-  message?: string
+type User = {
+  id: number
+  email: string
+  password: string
+  name: string
 }
+
+
 
 const Register: React.FC = () => {
   const [form] = Form.useForm<RegisterFormValues>()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+const { refreshUserList } = useContext(AuthContext)
 
   const onFinish = async (values: RegisterFormValues) => {
     const { email, password } = values
     setLoading(true)
 
-    try {
-      await axios.post<RegisterResponse>(
-        'https://d5f9-42-114-121-153.ngrok-free.app/auth/register',
-        { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+    setTimeout(() => {
+      const userDataString = localStorage.getItem('users')
+      const userData: User[] = userDataString ? JSON.parse(userDataString) : []
 
+      const emailExists = userData.some(user => user.email === email)
+
+      if (emailExists) {
+        message.error('Email đã tồn tại. Vui lòng chọn email khác.')
+        setLoading(false)
+        return
+      }
+
+      const newUser: User = {
+        id: Date.now(),
+        email,
+        password,
+        name: email.split('@')[0],
+      }
+
+      const updatedUserList = [...userData, newUser]
+      localStorage.setItem('users', JSON.stringify(updatedUserList))
+      refreshUserList();
       message.success('Đăng ký thành công!')
       form.resetFields()
       navigate('/login')
-    } catch (error) {
-      const err = error as AxiosError<{ message?: string }>
-      if (err.response?.data?.message) {
-        message.error(err.response.data.message)
-      } else {
-        message.error('Lỗi kết nối đến máy chủ')
-      }
-    } finally {
       setLoading(false)
-    }
+    }, 500)
   }
 
   return (
