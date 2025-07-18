@@ -1,7 +1,5 @@
-import React from 'react'
-import { Card, Col, Row, Button, Typography, Space, message } from 'antd'
-import Cookies from 'js-cookie'
-import { toast } from 'react-toastify'
+import { Button, Card, Col, Row, Space, Typography, Modal } from 'antd'
+import React, { useState } from 'react'
 
 const { Title, Text } = Typography
 
@@ -11,98 +9,44 @@ const plans = [
     title: 'Gói Tháng',
     price: '59.000đ / tháng',
     description: 'Truy cập Premium trong 30 ngày',
+    qrCode: '/images/59.jpg', 
   },
   {
     key: 'quarterly',
     title: 'Gói Quý',
     price: '159.000đ / 3 tháng',
     description: 'Tiết kiệm 16%, gia hạn 3 tháng',
+    qrCode: ' /images/159.jpg',
   },
   {
     key: 'yearly',
     title: 'Gói Năm',
     price: '490.000đ / năm',
     description: 'Tiết kiệm 33%, dùng 12 tháng',
+    qrCode: '',
   },
 ]
 
-// const historyData = [
-//   {
-//     key: '1',
-//     date: '02/06/2025',
-//     plan: 'Gói Tháng',
-//     amount: '99.000đ',
-//     status: 'Thành công',
-//   },
-//   {
-//     key: '2',
-//     date: '01/05/2025',
-//     plan: 'Gói Tháng',
-//     amount: '99.000đ',
-//     status: 'Thành công',
-//   },
-// ]
-
-// const columns = [
-//   {
-//     title: 'Ngày giao dịch',
-//     dataIndex: 'date',
-//     key: 'date',
-//   },
-//   {
-//     title: 'Gói',
-//     dataIndex: 'plan',
-//     key: 'plan',
-//   },
-//   {
-//     title: 'Số tiền',
-//     dataIndex: 'amount',
-//     key: 'amount',
-//   },
-//   {
-//     title: 'Trạng thái',
-//     dataIndex: 'status',
-//     key: 'status',
-//     render: (status: string) => (
-//       <Text type={status === 'Thành công' ? 'success' : 'danger'}>
-//         {status}
-//       </Text>
-//     ),
-//   },
-// ]
 const Payment: React.FC = () => {
-  const handleSubscribe = async (planKey: string) => {
-    const token = Cookies.get('accessToken')
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [currentQrCode, setCurrentQrCode] = useState<string | null>(null)
 
-    if (!token) {
-      message.error('Vui lòng đăng nhập để thanh toán.')
-      return
+  const handleSubscribe = (planKey: string) => {
+    const selectedPlan = plans.find((plan) => plan.key === planKey)
+    if (selectedPlan) {
+      setCurrentQrCode(selectedPlan.qrCode)
+      setIsModalVisible(true)
     }
+  }
 
-    try {
-      const response = await fetch(
-        `https://d5f9-42-114-121-153.ngrok-free.app/payment/create?pkg=${planKey}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+  const handleOk = () => {
+    setIsModalVisible(false)
+    setCurrentQrCode(null)
+  }
 
-      const data = await response.json()
-
-      if (response.ok) {
-        message.success('Chuyển đến cổng thanh toán...')
-      // Mở trang thanh toán
-      window.location.href = data.paymentUrl
-        // TODO: reload lịch sử giao dịch nếu cần
-      } else {
-        throw new Error(data.message || 'Có lỗi xảy ra khi thanh toán.')
-      }
-    } catch {
-      toast.error(`Thanh toán thất bại`)
-    }
+  const handleCancel = () => {
+    setIsModalVisible(false)
+    setCurrentQrCode(null)
   }
 
   return (
@@ -127,7 +71,9 @@ const Payment: React.FC = () => {
               ]}
             >
               <Space direction="vertical" size="small">
-                <Text strong style={{ fontSize: 18 }}>{plan.price}</Text>
+                <Text strong style={{ fontSize: 18 }}>
+                  {plan.price}
+                </Text>
                 <Text>{plan.description}</Text>
               </Space>
             </Card>
@@ -135,14 +81,26 @@ const Payment: React.FC = () => {
         ))}
       </Row>
 
-      {/* <Title level={4}>Lịch sử giao dịch</Title>
-      <Table
-        columns={columns}
-        dataSource={historyData}
-        pagination={{ pageSize: 5 }}
-        bordered
-        rowKey="key"
-      /> */}
+      <Modal
+        title="Quét mã QR để thanh toán"
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Đóng
+          </Button>,
+        ]}
+      >
+        {currentQrCode && (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <img src={currentQrCode} alt="QR Code" style={{ maxWidth: '100%', height: 'auto' }} />
+            <Text type="secondary" style={{ marginTop: '10px', display: 'block' }}>
+              Vui lòng quét mã QR này để hoàn tất thanh toán. Thông tin chuyển khoản bao gồm email đăng ký
+            </Text>
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }

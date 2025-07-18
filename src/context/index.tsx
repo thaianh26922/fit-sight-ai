@@ -19,11 +19,23 @@ type WorkoutSchedule = {
   [key: string]: string;
 };
 
-type MealPlan = {
-  [key: string]: {
-    [key: string]: string;
-  };
+// --- MODIFIED MealPlan TYPE ---
+type MealDetail = {
+  ten_mon: string;
+  calo_tren_100g: string;
+  anh_mon_an: string;
 };
+
+type DailyMeals = {
+  sang: MealDetail;
+  trua: MealDetail;
+  toi: MealDetail;
+};
+
+export type MealPlan = {
+  [key: string]: DailyMeals;
+};
+// --- END MODIFIED MealPlan TYPE ---
 
 // Kiểu dữ liệu tổng hợp cho toàn bộ kết quả phân tích
 export type AnalysisData = {

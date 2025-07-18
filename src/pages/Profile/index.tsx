@@ -75,8 +75,11 @@ const Profile: React.FC = () => {
     const dietArray: Diet[] = Object.entries(mealPlan).map(([day, meals], i) => ({
       key: i,
       day,
-      meals: `Ăn sáng: ${meals.sang}\nTrưa: ${meals.trua}\nTối: ${meals.toi}`,
+      meals: `Ăn sáng: ${meals.sang.ten_mon} (${meals.sang.calo_tren_100g} calo/100g)
+Trưa: ${meals.trua.ten_mon} (${meals.trua.calo_tren_100g} calo/100g)
+Tối: ${meals.toi.ten_mon} (${meals.toi.calo_tren_100g} calo/100g)`,
     }))
+
     setDietSchedule(dietArray)
   }, [analysisData])
 
@@ -160,6 +163,7 @@ const Profile: React.FC = () => {
                 },
               ]}
             />
+
           </Card>
         </Col>
       </Row>

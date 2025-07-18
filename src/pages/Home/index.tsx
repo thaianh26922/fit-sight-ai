@@ -59,39 +59,123 @@ const analyzeData = [
     },
     "thuc_don_mau": {
       "thu_hai": {
-        "sang": "Trứng ốp la và bánh mì nguyên cám",
-        "trua": "Cơm gạo lứt với ức gà",
-        "toi": "Cá hồi nướng và salad"
+        "sang": {
+          "ten_mon": "Trứng ốp la và bánh mì nguyên cám",
+          "calo_tren_100g": "150 kcal (trứng ốp la), 250 kcal (bánh mì nguyên cám)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.EqnJSN1Gihbr4LEvfi2fUgHaD4?w=301&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm gạo lứt với ức gà",
+          "calo_tren_100g": "130 kcal (gạo lứt), 165 kcal (ức gà)",
+          "anh_mon_an": "https://i.ytimg.com/vi/m8V3ULygdoI/maxresdefault.jpg"
+        },
+        "toi": {
+          "ten_mon": "Cá hồi nướng và salad",
+          "calo_tren_100g": "208 kcal (cá hồi), 20 kcal (salad rau)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.CjrQu4AfpeMH3PKPFzg1yAHaE8?w=272&h=181&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_ba": {
-        "sang": "Sinh tố chuối và bơ hạt nhân",
-        "trua": "Thịt bò xào rau cải xanh",
-        "toi": "Gà nướng và khoai tây nghiền"
+        "sang": {
+          "ten_mon": "Sinh tố chuối và bơ hạt nhân",
+          "calo_tren_100g": "90 kcal (chuối), 600 kcal (bơ hạt nhân)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.LdVH9W6o2yQhAJ723atiEQHaEP?w=275&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt bò xào rau cải xanh",
+          "calo_tren_100g": "250 kcal (thịt bò), 20 kcal (rau cải)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yd3h5S6HUR_3F5n_FHecpQHaEU?w=243&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Gà nướng và khoai tây nghiền",
+          "calo_tren_100g": "165 kcal (gà nướng), 85 kcal (khoai tây nghiền)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.l--andsEBUFRn02b2ggrJAHaEK?w=286&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_tu": {
-        "sang": "Trái cây và yến mạch",
-        "trua": "Cơm và cá hồi",
-        "toi": "Salad ức gà và rau xanh"
+        "sang": {
+          "ten_mon": "Trái cây và yến mạch",
+          "calo_tren_100g": "50 kcal (trái cây hỗn hợp), 389 kcal (yến mạch)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yIF22ZVvgSmlj4J4LM0gTAHaE8?w=294&h=196&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và cá hồi",
+          "calo_tren_100g": "130 kcal (cơm trắng), 208 kcal (cá hồi)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.TwqVjoG_cAesboblEMSZAQHaJ4?w=120&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Salad ức gà và rau xanh",
+          "calo_tren_100g": "165 kcal (ức gà), 20 kcal (rau xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.DEZNNi5rahfT9AZm6tHZPAHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_nam": {
-        "sang": "Bánh mì và trứng luộc",
-        "trua": "Gà luộc và rau sống",
-        "toi": "Thịt nướng và bông cải xanh"
+        "sang": {
+          "ten_mon": "Bánh mì và trứng luộc",
+          "calo_tren_100g": "265 kcal (bánh mì trắng), 155 kcal (trứng luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.tXWW63f3q_UajZCEsQVDKQHaE7?w=241&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Gà luộc và rau sống",
+          "calo_tren_100g": "165 kcal (gà luộc), 20 kcal (rau sống)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.dQ0KxNpKzwcjOTH3uenfJQHaE7?w=261&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Thịt nướng và bông cải xanh",
+          "calo_tren_100g": "250 kcal (thịt nướng), 25 kcal (bông cải xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.oLOgaUTWjZnEPNe6jkijwQHaEK?w=321&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_sau": {
-        "sang": "Yến mạch và sữa chua",
-        "trua": "Thịt heo nạc và rau luộc",
-        "toi": "Cá và bún gạo lứt"
+        "sang": {
+          "ten_mon": "Yến mạch và sữa chua",
+          "calo_tren_100g": "389 kcal (yến mạch), 60 kcal (sữa chua không đường)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.WcIJPpgUWieSS-dFhTI9QwHaE8?w=250&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt heo nạc và rau luộc",
+          "calo_tren_100g": "143 kcal (thịt heo nạc), 20 kcal (rau luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.x7JWFm3cFty0ZCaoFVSLOgHaEL?w=372&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Cá và bún gạo lứt",
+          "calo_tren_100g": "150 kcal (cá phi lê), 110 kcal (bún gạo lứt)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.7cNe22hPqaYVAaCPFAye1AHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_bay": {
-        "sang": "Smoothie rau xanh",
-        "trua": "Cơm và thịt gà",
-        "toi": "Mì Ý và thịt bò băm"
+        "sang": {
+          "ten_mon": "Smoothie rau xanh",
+          "calo_tren_100g": "50 kcal",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.zjGTHph1CWBjc20n4L1gJgHaHa?w=179&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và thịt gà",
+          "calo_tren_100g": "130 kcal (cơm trắng), 165 kcal (thịt gà)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.ADtowUbZY1H3KXS836jeYgHaEo?w=237&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Mì Ý và thịt bò băm",
+          "calo_tren_100g": "158 kcal (mì Ý), 250 kcal (thịt bò băm)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.m6g7MK0mtuoRHgVcYMwF-gHaE8?w=270&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "chu_nhat": {
-        "sang": "Bánh mì và trái cây",
-        "trua": "Salad cá ngừ và khoai lang",
-        "toi": "Gà hầm và rau củ"
+        "sang": {
+          "ten_mon": "Bánh mì và trái cây",
+          "calo_tren_100g": "265 kcal (bánh mì trắng), 50 kcal (trái cây hỗn hợp)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.b03zwmjbbdshS3PIuctQPwHaFj?w=224&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Salad cá ngừ và khoai lang",
+          "calo_tren_100g": "184 kcal (cá ngừ đóng hộp), 86 kcal (khoai lang)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.35x-T_pGFIfdWZTaQXJNbAHaFt?w=220&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Gà hầm và rau củ",
+          "calo_tren_100g": "165 kcal (thịt gà), 50 kcal (rau củ hầm)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.GFZHzo1kD9fcCEd8iNlEzAHaEL?w=279&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       }
     }
   },
@@ -120,39 +204,126 @@ const analyzeData = [
     },
     "thuc_don_mau": {
       "thu_hai": {
-        "sang": "Yến mạch và trái cây",
-        "trua": "Ức gà áp chảo và rau xanh",
-        "toi": "Salad cá ngừ"
+        "sang": {
+          "ten_mon": "Trái cây và yến mạch",
+          "calo_tren_100g": "50 kcal (trái cây hỗn hợp), 389 kcal (yến mạch)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yIF22ZVvgSmlj4J4LM0gTAHaE8?w=294&h=196&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và cá hồi",
+          "calo_tren_100g": "130 kcal (cơm trắng), 208 kcal (cá hồi)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.TwqVjoG_cAesboblEMSZAQHaJ4?w=120&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Salad ức gà và rau xanh",
+          "calo_tren_100g": "165 kcal (ức gà), 20 kcal (rau xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.DEZNNi5rahfT9AZm6tHZPAHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       },
       "thu_ba": {
-        "sang": "Bánh mì đen và trứng ốp",
-        "trua": "Cơm gạo lứt và cá diêu hồng",
-        "toi": "Súp bí đỏ và hạt"
+        "sang": {
+          "ten_mon": "Sinh tố chuối và bơ hạt nhân",
+          "calo_tren_100g": "90 kcal (chuối), 600 kcal (bơ hạt nhân)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.LdVH9W6o2yQhAJ723atiEQHaEP?w=275&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt bò xào rau cải xanh",
+          "calo_tren_100g": "250 kcal (thịt bò), 20 kcal (rau cải)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yd3h5S6HUR_3F5n_FHecpQHaEU?w=243&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Gà nướng và khoai tây nghiền",
+          "calo_tren_100g": "165 kcal (gà nướng), 85 kcal (khoai tây nghiền)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.l--andsEBUFRn02b2ggrJAHaEK?w=286&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_tu": {
-        "sang": "Sinh tố rau xanh và protein",
-        "trua": "Thịt bò nướng và khoai lang",
-        "toi": "Canh rau củ"
+        "sang": {
+          "ten_mon": "Trứng ốp la và bánh mì nguyên cám",
+          "calo_tren_100g": "150 kcal (trứng ốp la), 250 kcal (bánh mì nguyên cám)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.EqnJSN1Gihbr4LEvfi2fUgHaD4?w=301&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm gạo lứt với ức gà",
+          "calo_tren_100g": "130 kcal (gạo lứt), 165 kcal (ức gà)",
+          "anh_mon_an": "https://i.ytimg.com/vi/m8V3ULygdoI/maxresdefault.jpg"
+        },
+        "toi": {
+          "ten_mon": "Cá hồi nướng và salad",
+          "calo_tren_100g": "208 kcal (cá hồi), 20 kcal (salad rau)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.CjrQu4AfpeMH3PKPFzg1yAHaE8?w=272&h=181&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       },
       "thu_nam": {
-        "sang": "Trứng luộc và cà chua",
-        "trua": "Salad gà nướng",
-        "toi": "Súp lơ xanh hấp"
+        "sang": {
+          "ten_mon": "Bánh mì và trứng luộc",
+          "calo_tren_100g": "265 kcal (bánh mì trắng), 155 kcal (trứng luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.tXWW63f3q_UajZCEsQVDKQHaE7?w=241&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Gà luộc và rau sống",
+          "calo_tren_100g": "165 kcal (gà luộc), 20 kcal (rau sống)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.dQ0KxNpKzwcjOTH3uenfJQHaE7?w=261&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Thịt nướng và bông cải xanh",
+          "calo_tren_100g": "250 kcal (thịt nướng), 25 kcal (bông cải xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.oLOgaUTWjZnEPNe6jkijwQHaEK?w=321&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_sau": {
-        "sang": "Sữa chua không đường và hạt chia",
-        "trua": "Cơm gạo lứt và tôm hấp",
-        "toi": "Cá hấp gừng"
+        "sang": {
+          "ten_mon": "Yến mạch và sữa chua",
+          "calo_tren_100g": "389 kcal (yến mạch), 60 kcal (sữa chua không đường)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.WcIJPpgUWieSS-dFhTI9QwHaE8?w=250&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt heo nạc và rau luộc",
+          "calo_tren_100g": "143 kcal (thịt heo nạc), 20 kcal (rau luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.x7JWFm3cFty0ZCaoFVSLOgHaEL?w=372&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Cá và bún gạo lứt",
+          "calo_tren_100g": "150 kcal (cá phi lê), 110 kcal (bún gạo lứt)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.7cNe22hPqaYVAaCPFAye1AHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_bay": {
-        "sang": "Bánh mì nguyên cám và bơ đậu phộng",
-        "trua": "Ức gà luộc và salad rau củ",
-        "toi": "Thịt gà kho gừng"
+        "sang": {
+          "ten_mon": "Smoothie rau xanh",
+          "calo_tren_100g": "50 kcal",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.zjGTHph1CWBjc20n4L1gJgHaHa?w=179&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và thịt gà",
+          "calo_tren_100g": "130 kcal (cơm trắng), 165 kcal (thịt gà)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.ADtowUbZY1H3KXS836jeYgHaEo?w=237&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Mì Ý và thịt bò băm",
+          "calo_tren_100g": "158 kcal (mì Ý), 250 kcal (thịt bò băm)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.m6g7MK0mtuoRHgVcYMwF-gHaE8?w=270&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "chu_nhat": {
-        "sang": "Nước ép rau củ",
-        "trua": "Miến gà",
-        "toi": "Cháo yến mạch với thịt băm"
+        "sang": {
+          "ten_mon": "Trái cây và yến mạch",
+          "calo_tren_100g": "50 kcal (trái cây hỗn hợp), 389 kcal (yến mạch)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yIF22ZVvgSmlj4J4LM0gTAHaE8?w=294&h=196&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và cá hồi",
+          "calo_tren_100g": "130 kcal (cơm trắng), 208 kcal (cá hồi)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.TwqVjoG_cAesboblEMSZAQHaJ4?w=120&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Salad ức gà và rau xanh",
+          "calo_tren_100g": "165 kcal (ức gà), 20 kcal (rau xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.DEZNNi5rahfT9AZm6tHZPAHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       }
     }
   },
@@ -181,164 +352,133 @@ const analyzeData = [
     },
     "thuc_don_mau": {
       "thu_hai": {
-        "sang": "Bánh mì đen và trứng ốp",
-        "trua": "Cá nướng và rau cải luộc",
-        "toi": "Ức gà hấp và măng tây"
+        "sang": {
+          "ten_mon": "Trái cây và yến mạch",
+          "calo_tren_100g": "50 kcal (trái cây hỗn hợp), 389 kcal (yến mạch)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yIF22ZVvgSmlj4J4LM0gTAHaE8?w=294&h=196&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và cá hồi",
+          "calo_tren_100g": "130 kcal (cơm trắng), 208 kcal (cá hồi)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.TwqVjoG_cAesboblEMSZAQHaJ4?w=120&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Salad ức gà và rau xanh",
+          "calo_tren_100g": "165 kcal (ức gà), 20 kcal (rau xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.DEZNNi5rahfT9AZm6tHZPAHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       },
       "thu_ba": {
-        "sang": "Yến mạch và chuối",
-        "trua": "Thịt bò xào rau củ",
-        "toi": "Súp bí ngô"
+        "sang": {
+          "ten_mon": "Sinh tố chuối và bơ hạt nhân",
+          "calo_tren_100g": "90 kcal (chuối), 600 kcal (bơ hạt nhân)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.LdVH9W6o2yQhAJ723atiEQHaEP?w=275&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt bò xào rau cải xanh",
+          "calo_tren_100g": "250 kcal (thịt bò), 20 kcal (rau cải)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.yd3h5S6HUR_3F5n_FHecpQHaEU?w=243&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Gà nướng và khoai tây nghiền",
+          "calo_tren_100g": "165 kcal (gà nướng), 85 kcal (khoai tây nghiền)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.l--andsEBUFRn02b2ggrJAHaEK?w=286&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_tu": {
-        "sang": "Sinh tố rau chân vịt",
-        "trua": "Cơm gạo lứt và cá basa kho",
-        "toi": "Salad trộn"
+        "sang": {
+          "ten_mon": "Trứng ốp la và bánh mì nguyên cám",
+          "calo_tren_100g": "150 kcal (trứng ốp la), 250 kcal (bánh mì nguyên cám)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.EqnJSN1Gihbr4LEvfi2fUgHaD4?w=301&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt nướng và bông cải xanh",
+          "calo_tren_100g": "250 kcal (thịt nướng), 25 kcal (bông cải xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.oLOgaUTWjZnEPNe6jkijwQHaEK?w=321&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+
+        },
+        "toi": {
+          "ten_mon": "Cá hồi nướng và salad",
+          "calo_tren_100g": "208 kcal (cá hồi), 20 kcal (salad rau)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.CjrQu4AfpeMH3PKPFzg1yAHaE8?w=272&h=181&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       },
       "thu_nam": {
-        "sang": "Phô mai tươi và dâu tây",
-        "trua": "Gà xé phay và bắp cải",
-        "toi": "Trứng luộc và cà chua"
+        "sang": {
+          "ten_mon": "Bánh mì và trứng luộc",
+          "calo_tren_100g": "265 kcal (bánh mì trắng), 155 kcal (trứng luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.tXWW63f3q_UajZCEsQVDKQHaE7?w=241&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Gà luộc và rau sống",
+          "calo_tren_100g": "165 kcal (gà luộc), 20 kcal (rau sống)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.dQ0KxNpKzwcjOTH3uenfJQHaE7?w=261&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Thịt nướng và bông cải xanh",
+          "calo_tren_100g": "250 kcal (thịt nướng), 25 kcal (bông cải xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.oLOgaUTWjZnEPNe6jkijwQHaEK?w=321&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_sau": {
-        "sang": "Trái cây và sữa chua",
-        "trua": "Cá hồi áp chảo và cơm lứt",
-        "toi": "Bông cải xanh luộc"
+        "sang": {
+          "ten_mon": "Yến mạch và sữa chua",
+          "calo_tren_100g": "389 kcal (yến mạch), 60 kcal (sữa chua không đường)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.WcIJPpgUWieSS-dFhTI9QwHaE8?w=250&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Thịt heo nạc và rau luộc",
+          "calo_tren_100g": "143 kcal (thịt heo nạc), 20 kcal (rau luộc)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.x7JWFm3cFty0ZCaoFVSLOgHaEL?w=372&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Cá và bún gạo lứt",
+          "calo_tren_100g": "150 kcal (cá phi lê), 110 kcal (bún gạo lứt)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.7cNe22hPqaYVAaCPFAye1AHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "thu_bay": {
-        "sang": "Cháo yến mạch và hạt",
-        "trua": "Ức gà luộc và salad",
-        "toi": "Canh chua cá"
+        "sang": {
+          "ten_mon": "Smoothie rau xanh",
+          "calo_tren_100g": "50 kcal",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.zjGTHph1CWBjc20n4L1gJgHaHa?w=179&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "trua": {
+          "ten_mon": "Cơm và thịt gà",
+          "calo_tren_100g": "130 kcal (cơm trắng), 165 kcal (thịt gà)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.ADtowUbZY1H3KXS836jeYgHaEo?w=237&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Mì Ý và thịt bò băm",
+          "calo_tren_100g": "158 kcal (mì Ý), 250 kcal (thịt bò băm)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.m6g7MK0mtuoRHgVcYMwF-gHaE8?w=270&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
       },
       "chu_nhat": {
-        "sang": "Bánh pancake chuối yến mạch",
-        "trua": "Mì spaghetti nguyên cám và sốt thịt bò",
-        "toi": "Salad ức gà"
+        "sang": {
+          "ten_mon": "Cơm gạo lứt với ức gà",
+          "calo_tren_100g": "130 kcal (gạo lứt), 165 kcal (ức gà)",
+          "anh_mon_an": "https://i.ytimg.com/vi/m8V3ULygdoI/maxresdefault.jpg"
+
+        },
+        "trua": {
+          "ten_mon": "Cơm và cá hồi",
+          "calo_tren_100g": "130 kcal (cơm trắng), 208 kcal (cá hồi)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.TwqVjoG_cAesboblEMSZAQHaJ4?w=120&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+        },
+        "toi": {
+          "ten_mon": "Salad ức gà và rau xanh",
+          "calo_tren_100g": "165 kcal (ức gà), 20 kcal (rau xanh)",
+          "anh_mon_an": "https://th.bing.com/th/id/OIP.DEZNNi5rahfT9AZm6tHZPAHaHa?w=187&h=187&c=7&r=0&o=7&pid=1.7&rm=3"
+        }
+
       }
     }
   },
-  {
-    "id": 4,
-    "chi_so_co_the": {
-      "suc_manh": 68,
-      "suc_ben": 72,
-      "tu_the": 75,
-      "trao_doi_chat": 73,
-      "do_deo_dai": 77
-    },
-    "thanh_phan_co_the": {
-      "mo": "16%",
-      "co": "39%",
-      "nuoc": "59%"
-    },
-    "lich_tap_luyen": {
-      "thu_hai": "Đi bộ nhanh 45 phút",
-      "thu_ba": "Tập toàn thân với tạ nhẹ",
-      "thu_tu": "Đạp xe 1 tiếng",
-      "thu_nam": "Tập yoga",
-      "thu_sau": "Tập cơ bụng và cardio",
-      "thu_bay": "Tập các bài kéo giãn",
-      "chu_nhat": "Nghỉ ngơi"
-    },
-    "thuc_don_mau": {
-      "thu_hai": {
-        "sang": "Trứng luộc và khoai lang",
-        "trua": "Thịt gà nướng và rau xanh",
-        "toi": "Salad dưa chuột và cà chua"
-      },
-      "thu_ba": {
-        "sang": "Sữa tươi không đường và ngũ cốc nguyên hạt",
-        "trua": "Cá sốt cà chua và cơm lứt",
-        "toi": "Đậu phụ luộc và rau cải"
-      },
-      "thu_tu": {
-        "sang": "Sinh tố bơ và chuối",
-        "trua": "Salad ức gà và rau củ quả",
-        "toi": "Canh rau ngót thịt băm"
-      },
-      "thu_nam": {
-        "sang": "Bánh mì nguyên cám và trứng cuộn",
-        "trua": "Bún riêu cua (ít bún, nhiều rau)",
-        "toi": "Cá diêu hồng hấp"
-      },
-      "thu_sau": {
-        "sang": "Yến mạch trộn hoa quả",
-        "trua": "Gà luộc xé phay và salad",
-        "toi": "Súp gà và nấm"
-      },
-      "thu_bay": {
-        "sang": "Trứng tráng và rau xanh",
-        "trua": "Cơm gạo lứt và sườn nướng",
-        "toi": "Rau luộc thập cẩm"
-      },
-      "chu_nhat": {
-        "sang": "Bánh mì nướng và bơ",
-        "trua": "Phở gà (ít bánh phở)",
-        "toi": "Salad trái cây"
-      }
-    }
-  },
-  {
-    "id": 5,
-    "chi_so_co_the": {
-      "suc_manh": 75,
-      "suc_ben": 65,
-      "tu_the": 85,
-      "trao_doi_chat": 80,
-      "do_deo_dai": 70
-    },
-    "thanh_phan_co_the": {
-      "mo": "13%",
-      "co": "45%",
-      "nuoc": "63%"
-    },
-    "lich_tap_luyen": {
-      "thu_hai": "Tập gym: Ngực và tay sau",
-      "thu_ba": "Cardio: Chạy bộ 45 phút",
-      "thu_tu": "Tập gym: Lưng và tay trước",
-      "thu_nam": "Cardio: Đạp xe 45 phút",
-      "thu_sau": "Tập gym: Chân và bụng",
-      "thu_bay": "Yoga / Giãn cơ",
-      "chu_nhat": "Nghỉ ngơi hoàn toàn"
-    },
-    "thuc_don_mau": {
-      "thu_hai": {
-        "sang": "Trứng luộc (2 quả) + Bánh mì nguyên cám (1 lát)",
-        "trua": "Ức gà nướng + Salad rau xanh",
-        "toi": "Cá hồi áp chảo + Bông cải xanh hấp"
-      },
-      "thu_ba": {
-        "sang": "Yến mạch (1 bát) + Quả mọng",
-        "trua": "Thịt bò xào rau củ + Cơm gạo lứt (1/2 bát)",
-        "toi": "Súp bí đỏ + Ức gà xé"
-      },
-      "thu_tu": {
-        "sang": "Smoothie protein (whey, chuối, sữa hạt)",
-        "trua": "Cá basa kho tộ + Rau luộc",
-        "toi": "Salad tôm + Dầu ô liu"
-      },
-      "thu_nam": {
-        "sang": "Bánh mì đen (1 lát) + Trứng ốp la (1 quả)",
-        "trua": "Gà luộc + Khoai lang (1 củ)",
-        "toi": "Thịt heo nạc luộc + Cải thìa"
-      },
-      "thu_sau": {
-        "sang": "Sữa chua không đường + Hạt chia + Trái cây",
-        "trua": "Phở cuốn (3-4 cái) + Nước chấm nhạt",
-        "toi": "Canh chua cá + Rau sống"
-      },
-      "thu_bay": {
-        "sang": "Bánh kếp yến mạch + Mật ong",
-        "trua": "Bún chả (ít bún, nhiều rau và chả nạc)",
-        "toi": "Salad ức gà hun khói"
-      },
-      "chu_nhat": {
-        "sang": "Omelette trứng rau củ",
-        "trua": "Cơm gạo lứt + Thịt bò băm rang",
-        "toi": "Súp gà nấm hương"
-      }
-    }
-  }
+
+
 ]
 
 
@@ -349,7 +489,7 @@ const Home: React.FC = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Lấy hàm setAnalysisData từ AuthContext
-  const {setAnalysisData } = useContext(AuthContext);
+  const { setAnalysisData } = useContext(AuthContext);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -481,7 +621,10 @@ ${Object.entries(randomData.lich_tap_luyen).map(([dayKey, activity]) => `- ${day
 🍽️ *Thực đơn mẫu*
 ${Object.entries(randomData.thuc_don_mau).map(
         ([dayKey, meals]) =>
-          `- ${dayMap[dayKey] || dayKey}:\n  🥣 Sáng: ${meals.sang}\n  🍛 Trưa: ${meals.trua}\n  🍲 Tối: ${meals.toi}`
+          `- ${dayMap[dayKey] || dayKey}:
+   🥣 Sáng: ${meals.sang.ten_mon} (${meals.sang.calo_tren_100g})
+   🍛 Trưa: ${meals.trua.ten_mon} (${meals.trua.calo_tren_100g})
+   🍲 Tối: ${meals.toi.ten_mon} (${meals.toi.calo_tren_100g})`
       ).join('\n\n')}`;
 
       setTimeout(() => {
